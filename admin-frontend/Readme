@@ -1,0 +1,76 @@
+CivicSathi - Municipal Admin Dashboard
+This is the frontend for the CivicSathi Municipal Dashboard, a powerful web application designed to help government officials manage, track, and analyze crowdsourced civic issue reports. It serves as the central command center for viewing, updating, and deriving insights from citizen-submitted data.
+
+This project was bootstrapped with Create React App.
+
+Features ✨
+Real-Time Dashboard: A high-level overview of key metrics, including total open issues, resolution rates, and critical alerts.
+
+Comprehensive Issue Management: A detailed table view of all submitted reports with advanced search and filtering capabilities.
+
+Interactive Issues Map: A geographic visualization of all reported issues using Leaflet.js to identify problem hotspots.
+
+Data Analytics: An analytics page with charts (powered by Chart.js) to visualize trends and departmental performance.
+
+Seamless Workflow: Update issue status, assign priority, and draft pre-filled emails directly to responsible departments.
+
+Secure & Responsive: A clean, responsive user interface built with Bootstrap, ensuring usability on various devices.
+
+Tech Stack 🛠️
+Core Framework: React
+
+Routing: React Router
+
+UI Components: React Bootstrap
+
+Database: Google Firestore (Real-time data fetching)
+
+Mapping: Leaflet.js & React-Leaflet
+
+Charts & Analytics: Chart.js & React-Chartjs-2
+
+Prerequisites
+Before you begin, ensure you have the following installed on your system:
+
+Node.js (v14 or later recommended)
+
+npm (Node Package Manager)
+
+Getting Started 🚀
+Follow these instructions to get a copy of the project up and running on your local machine for development and testing purposes.
+
+1. Clone the Repository
+First, clone the main project repository to your local machine.
+
+Bash
+
+git clone https://github.com/READSAM/CIVIC_SATHI.git
+cd CIVIC_SATHI/admin-frontend
+2. Install Dependencies
+Navigate into the admin-frontend directory and install all the required npm packages.
+
+Bash
+
+npm install
+3. Set Up Firebase Configuration
+This application connects to a Firebase project to fetch and display data. You need to provide your Firebase project's configuration credentials.
+
+Create a new file in the admin-frontend/src/ directory named .env.
+
+Copy and paste the following into the .env file, replacing the placeholder values with your actual Firebase project credentials. You can find these in your Firebase project settings.
+
+REACT_APP_FIREBASE_API_KEY="YOUR_API_KEY"
+REACT_APP_FIREBASE_AUTH_DOMAIN="YOUR_AUTH_DOMAIN"
+REACT_APP_FIREBASE_PROJECT_ID="YOUR_PROJECT_ID"
+REACT_APP_FIREBASE_STORAGE_BUCKET="YOUR_STORAGE_BUCKET"
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID="YOUR_MESSAGING_SENDER_ID"
+REACT_APP_FIREBASE_APP_ID="YOUR_APP_ID"
+Note: This .env file is included in the .gitignore and will not be committed to the repository, keeping your credentials secure.
+
+4. Run the Application
+Once the dependencies are installed and the Firebase configuration is set, you can start the React development server.
+
+Bash
+
+npm start
+This will run the app in development mode. Open http://localhost:3000 to view it in your browser. The page will automatically reload if you make any edits to the code.
