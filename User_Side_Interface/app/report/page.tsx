@@ -678,7 +678,7 @@ export default function ReportIssuePage() {
           body: JSON.stringify({
             description: description, 
             category: issueType,
-            tags: displayTags
+            tags: tagsToSend
         }),
        });
 
