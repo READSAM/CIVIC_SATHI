@@ -699,7 +699,7 @@ export default function ReportIssuePage() {
       if (selectedFile) {
         const formData = new FormData();
         formData.append('file', selectedFile);
-        const response = await fetch('${API_BASE_URL}/api/upload', {
+        const response = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: formData,
         });
@@ -716,7 +716,7 @@ export default function ReportIssuePage() {
       if (audioBlob) {
         const formData = new FormData();
         formData.append('file', audioBlob, 'audio.webm');
-        const response = await fetch('${API_BASE_URL}/api/upload', {
+        const response = await fetch(`${API_BASE_URL}/api/upload`, {
           method: 'POST',
           body: formData,
         });
