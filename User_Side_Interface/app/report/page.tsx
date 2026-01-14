@@ -1066,7 +1066,13 @@ export default function ReportIssuePage() {
         });
         if (deptResponse.ok) {
           const data = await deptResponse.json();
+            console.log("✅ Department Response:", data);
           if (data.department) assignedDepartment = data.department;
+        } else {
+          // THIS IS WHAT WAS MISSING:
+          console.error("❌ Department Server Error:", deptResponse.status, deptResponse.statusText);
+          const errorText = await deptResponse.text();
+          console.error("Server Error Details:", errorText); 
         }
       } catch (deptError) {
         console.warn("Department assignment failed:", deptError);
