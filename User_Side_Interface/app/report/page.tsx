@@ -947,7 +947,8 @@ export default function ReportIssuePage() {
   const recognitionRef = useRef<any>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const [isRecording, setIsRecording] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const uploadInputRef = useRef<HTMLInputElement>(null); // For the Upload button
+  const cameraInputRef = useRef<HTMLInputElement>(null);
   const { user } = useAuth();
 
   // --- Helper Functions (Debounce, etc.) ---
@@ -1278,54 +1279,69 @@ export default function ReportIssuePage() {
               )}
             </div>
 
-            {/* Image Upload */}
-             { <div className="space-y-2">
+             {/* Image Upload */}
+             {/* --- PHOTO EVIDENCE SECTION (Fixed Camera) --- */}
+            <div className="space-y-2">
               <Label>Photo Evidence</Label>
+              
+              {/* Hidden Input 1: Regular Upload (Gallery) */}
+              <input 
+                type="file" 
+                accept="image/*" 
+                className="hidden" 
+                ref={uploadInputRef} 
+                onChange={handleImageUpload} 
+              />
+
+              {/* Hidden Input 2: Camera Force (Rear Camera) */}
+              <input 
+                type="file" 
+                accept="image/*"
+                capture="environment" // <--- This does the magic on mobile
+                className="hidden" 
+                ref={cameraInputRef} 
+                onChange={handleImageUpload} 
+              />
+
               <div className="flex flex-col items-center justify-center border-2 border-dashed rounded-md p-6 hover:bg-muted/50 transition-colors">
                 {selectedImage ? (
-                  <div className="relative w-full">
+                  // IMAGE PREVIEW STATE
+                  <div className="relative w-full flex justify-center">
                     <img 
                       src={selectedImage} 
                       alt="Preview" 
-                      className="w-full max-h-[300px] object-contain rounded-md" 
+                      className="max-h-[300px] object-contain rounded-md" 
                     />
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      size="sm"
-                      className="absolute top-2 right-2"
-                      onClick={() => {
-                        setSelectedImage(null)
-                        setSelectedFile(null)
-                      }}
-                    >
-                      Remove
-                    </Button>
+                    <div className="absolute bottom-2 right-2 flex gap-2">
+                       <Button
+                        type="button" variant="secondary" size="sm"
+                        onClick={() => { setSelectedImage(null); setSelectedFile(null); }}
+                       >
+                         Remove
+                       </Button>
+                    </div>
                   </div>
                 ) : (
+                  // EMPTY STATE (Buttons)
                   <div className="text-center space-y-2">
                     <div className="flex justify-center gap-4">
-                      <Button type="button" variant="outline" onClick={() => document.getElementById('image-upload')?.click()}>
+                      {/* Upload Button - Clicks the uploadInputRef */}
+                      <Button type="button" variant="outline" onClick={() => uploadInputRef.current?.click()}>
                         <Upload className="mr-2 h-4 w-4" />
                         Upload
                       </Button>
-                      <Button type="button" variant="outline">
+
+                      {/* Camera Button - Clicks the cameraInputRef */}
+                      <Button type="button" variant="outline" onClick={() => cameraInputRef.current?.click()}>
                         <Camera className="mr-2 h-4 w-4" />
                         Camera
                       </Button>
                     </div>
-                    <Input 
-                      id="image-upload" 
-                      type="file" 
-                      accept="image/*" 
-                      className="hidden" 
-                      onChange={handleImageUpload}
-                    />
-                    <p className="text-xs text-muted-foreground">Supported formats: JPG, PNG</p>
+                    <p className="text-xs text-muted-foreground mt-2">Supported formats: JPG, PNG</p>
                   </div>
                 )}
               </div>
-            </div> } 
+            </div>
             
 
               
