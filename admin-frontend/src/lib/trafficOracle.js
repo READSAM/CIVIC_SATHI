@@ -7,9 +7,9 @@ const roadData = {
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [85.815581, 20.363967], //start
-          [85.816081, 20.364467], //exact location
-          [85.816581, 20.364967]  //end
+          [85.815581, 20.363967], 
+          [85.816081, 20.364467], 
+          [85.816581, 20.364967]  
         ]
       }
     },
@@ -107,14 +107,18 @@ export const getTrafficProfile = (locationString) => {
             if (distDegrees < 0.0025) {
                 console.log("MATCH: ", feature.properties.name);
                 
+                // DEFAULT MATCH: "HIGH" (Orange)
+                // This covers 'primary', 'secondary', etc.
                 let urgency = "HIGH";
-                let desc = "This is a key arterial road.";
-                let color = "warning";
+                let desc = "Important city road detected.";
+                let color = "warning"; // Bootstrap Orange
 
-                if (roadType === 'trunk' || roadType === 'primary') {
+                // OVERRIDE: "CRITICAL" (Red)
+                // Only for 'trunk' roads (Highways like NH-16) or explicit VIP zones
+                if (roadType === 'trunk' || feature.properties.name.includes("VIP")) {
                     urgency = "CRITICAL";
                     desc = "MAIN HIGHWAY / VIP ROUTE DETECTED.";
-                    color = "danger";
+                    color = "danger"; // Bootstrap Red
                 }
 
                 return {
