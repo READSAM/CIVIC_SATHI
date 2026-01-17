@@ -252,9 +252,9 @@
 // These are the specific lat/lon points the AI "watches"
 const CITY_ZONES = [
     { 
-        name: "Acharya Vihar Lowlands", 
-        lat: 20.364708, 
-        lon: 85.816811, 
+        name: "Raj Bhavan Square", 
+        lat: 20.271278, 
+        lon: 85.817585,
         radius: 800, // 800 meters range
         tags: ["Flood Prone", "Drainage Issue", "drainage", "leak", "water", "paani", "Paani", "Pani", "Pipe", "pipe", "water_leak"] 
     },
