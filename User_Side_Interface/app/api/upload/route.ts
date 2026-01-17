@@ -158,23 +158,37 @@ export async function POST(request: Request): Promise<NextResponse> {
         
         console.log(`[UPLOAD] Processing: ${filename}`);
 
-        // 1. Read the Image File
         const arrayBuffer = await fileObj.arrayBuffer();
         const inputBuffer = Buffer.from(arrayBuffer);
 
-        // 2. Read the Font File
-        // 👇 UPDATED: Pointing to public/fonts/Roboto-Regular.ttf
-        const fontPath = path.join(process.cwd(), 'public', 'fonts', 'Roboto-Regular.ttf');
+        // --- 🔍 ROBUST FONT LOADING START ---
         let fontBase64 = '';
         let fontStyleCSS = '';
+        
+        // We will try looking in two places:
+        // 1. public/fonts/ (Best practice)
+        // 2. public/ (Where you might have put it)
+        const possiblePaths = [
+            path.join(process.cwd(), 'public', 'fonts', 'Roboto-Regular.ttf'),
+            path.join(process.cwd(), 'public', 'Roboto-Regular.ttf'),
+        ];
 
-        try {
-            console.log(`[FONT] Attempting to load font from: ${fontPath}`);
-            const fontBuffer = await fs.readFile(fontPath);
-            fontBase64 = fontBuffer.toString('base64');
-            console.log(`[FONT] ✅ Font loaded successfully!`);
-            
-            // CSS to embed the font
+        let fontLoaded = false;
+
+        for (const fontPath of possiblePaths) {
+            try {
+                console.log(`[FONT] Checking path: ${fontPath}`);
+                const fontBuffer = await fs.readFile(fontPath);
+                fontBase64 = fontBuffer.toString('base64');
+                fontLoaded = true;
+                console.log(`[FONT] ✅ Found font at: ${fontPath}`);
+                break; // Stop looking, we found it!
+            } catch (err) {
+                console.log(`[FONT] ❌ Not found at: ${fontPath}`);
+            }
+        }
+
+        if (fontLoaded) {
             fontStyleCSS = `
                 @font-face {
                     font-family: 'MyCustomFont';
@@ -182,31 +196,32 @@ export async function POST(request: Request): Promise<NextResponse> {
                 }
                 .text { font-family: 'MyCustomFont', sans-serif; }
             `;
-        } catch (fontErr) {
-            console.error("[FONT] ❌ ERROR: Could not load font file.", fontErr);
-            console.error("Make sure 'Roboto-Regular.ttf' is inside 'public/fonts/' folder.");
-            
-            // Fallback: This usually results in "tofu" squares on servers without fonts
-            fontStyleCSS = `.text { font-family: sans-serif; }`; 
+        } else {
+            // 🛑 CRITICAL FAILURE: No font found.
+            console.error("[FONT] 💥 FATAL: Could not find Roboto-Regular.ttf in any expected folder.");
+            // We throw an error here so you see it in the logs immediately, 
+            // instead of generating a broken image.
+            throw new Error("Font file missing. Please ensure 'Roboto-Regular.ttf' is in 'public/fonts/'");
         }
+        // --- 🔍 ROBUST FONT LOADING END ---
 
-        // 3. Get Image Metadata
+
+        // 3. Metadata & Resize
         const metadata = await sharp(inputBuffer).metadata();
         const width = metadata.width || 800;
         const resizeWidth = width > 1000 ? 1000 : width;
 
-        // 4. Generate Timestamp
+        // 4. Timestamp
         const timestamp = new Date().toLocaleString('en-IN', { 
             timeZone: 'Asia/Kolkata',
             dateStyle: 'medium',
             timeStyle: 'short'
         });
 
-        // 5. Create SVG Overlay
         const line1 = `GPS: ${location}`;
         const line2 = `DATE: ${timestamp}`;
         
-        // Note: Added 'dominant-baseline' and 'text-anchor' for better centering if needed
+        // 5. SVG Overlay
         const svgOverlay = `
         <svg width="${resizeWidth}" height="80">
             <defs>
@@ -219,13 +234,12 @@ export async function POST(request: Request): Promise<NextResponse> {
                 </style>
             </defs>
             <rect x="0" y="0" width="${resizeWidth}" height="80" class="bg" />
-            
             <text x="20" y="35" class="text gps">${line1}</text>
             <text x="20" y="65" class="text date">${line2}</text>
         </svg>
         `;
 
-        // 6. Process Image (Composite)
+        // 6. Composite
         const processedImageBuffer = await sharp(inputBuffer)
             .resize({ width: resizeWidth })
             .composite([
@@ -234,7 +248,7 @@ export async function POST(request: Request): Promise<NextResponse> {
             .jpeg({ quality: 80 })
             .toBuffer();
 
-        // 7. Upload to Vercel Blob
+        // 7. Upload
         const blob = await put(filename, processedImageBuffer, {
             access: 'public',
             addRandomSuffix: true,
