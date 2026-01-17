@@ -75,7 +75,7 @@ export async function POST(req: Request) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ tags: tags }),
+      body: JSON.stringify({ description: tags }),
     });
 
     if (!pythonResponse.ok) {
