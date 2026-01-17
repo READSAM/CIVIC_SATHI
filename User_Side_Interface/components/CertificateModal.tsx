@@ -19,43 +19,40 @@ export default function CertificateModal({ isOpen, onClose, userName, rank, date
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 print:p-0 print:bg-white print:static print:block">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 print:p-0 print:bg-white print:static">
       
-      {/* 🖨️ UPDATED PRINT STYLES */}
+      {/* 🖨️ FIXED PRINT STYLES */}
       <style jsx global>{`
         @media print {
-          /* 1. Hide EVERYTHING in the body */
-          body > * {
-            display: none !important;
+          /* 1. HIDE EVERYTHING using visibility, not display */
+          body {
+            visibility: hidden;
+            background: white;
           }
 
-          /* 2. But make the modal container visible */
-          /* Depending on where Next.js mounts portals, we might need to target the portal root, 
-             but usually targeting the ID works if we append to body correctly. 
-             Since this is a simple component, we will target the ID directly. */
-          
-          /* 3. Force the certificate area to be the only visible thing */
+          /* 2. SHOW ONLY THE CERTIFICATE CONTAINER */
           #certificate-print-container {
-            display: flex !important;
-            position: absolute !important;
-            top: 0 !important;
+            visibility: visible !important;
+            position: fixed !important;
             left: 0 !important;
+            top: 0 !important;
             width: 100vw !important;
             height: 100vh !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            z-index: 9999 !important;
             background: white !important;
+            display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            z-index: 9999 !important;
-            visibility: visible !important;
+            margin: 0 !important;
+            padding: 0 !important;
           }
-          
+
+          /* 3. Ensure all children of the certificate are visible */
           #certificate-print-container * {
             visibility: visible !important;
           }
 
-          /* Hide the close/print buttons explicitly */
+          /* 4. Hide the buttons explicitly */
           .no-print {
             display: none !important;
           }
@@ -79,7 +76,6 @@ export default function CertificateModal({ isOpen, onClose, userName, rank, date
         </div>
 
         {/* 📜 CERTIFICATE AREA */}
-        {/* We added an ID 'certificate-print-container' to target it specifically */}
         <div id="certificate-print-container" className="p-8 overflow-auto bg-gray-200 flex justify-center min-h-[600px]">
           <div 
             className="w-[800px] h-[600px] bg-white p-10 relative shadow-lg text-center flex flex-col items-center justify-center border-[20px] border-double border-[#00648e] print:shadow-none print:w-full print:h-full print:border-[10px] print:m-0"
