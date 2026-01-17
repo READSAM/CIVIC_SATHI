@@ -1,1645 +1,3 @@
-// import React from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Dropdown, Button, Form } from 'react-bootstrap';
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-
-// // Sample data for a single issue
-// const issueData = {
-//   id: 'CMP-001',
-//   title: 'Large pothole causing traffic issues',
-//   description: "There is a large pothole on Main Street near the intersection with 1st Avenue. It's causing vehicles to swerve and creating a safety hazard. The pothole appears to be about 3 feet wide and 6 inches deep.",
-//   category: 'Pothole',
-//   tags: ['traffic-hazard', 'main-street', 'urgent-repair'],
-//   location: 'Main Street & 1st Ave, Ward 5',
-//   status: 'Open',
-//   priority: 'High',
-//   media: {
-//     photo: 'https://i.imgur.com/B9B1v2i.jpg', // Placeholder image
-//     audio: {
-//       url: '#',
-//       transcription: "This is a voice report about the pothole on Main Street. It's really dangerous and needs immediate attention."
-//     }
-//   },
-//   assignment: {
-//     department: 'Roads & Infrastructure',
-//     assignedTo: 'Mike Wilson'
-//   },
-//   reporter: {
-//     name: 'John Doe',
-//     contact: 'johndoe@example.com'
-//   },
-//   timeline: [
-//     { type: 'Reported', by: 'John Doe', date: '15/01/2024 at 16:00:00' },
-//     { type: 'Acknowledged', by: 'System', date: '15/01/2024 at 16:15:00' },
-//   ]
-// };
-
-// const IssueDetailsPage = () => {
-//   const { id } = useParams();
-  
-//   if (id !== 'CMP-001') {
-//     return <div className="p-4">Issue not found.</div>;
-//   }
-  
-//   return (
-//     <div className="issue-details-page p-4">
-//       <Link to="/issues" className="back-link mb-3 d-inline-block">
-//         <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//       </Link>
-      
-//       <h2 className="issue-id">{issueData.id}</h2>
-//       <p className="issue-title">{issueData.title}</p>
-      
-//       <Row className="mt-4 g-4">
-//         <Col md={8}>
-//           <Card className="detail-card mb-4">
-//             <Card.Body>
-//               <h5>Complaint Details</h5>
-//               <div className="mb-3">
-//                 <h6 className="detail-label">Description</h6>
-//                 <p className="detail-text">{issueData.description}</p>
-//               </div>
-//               <div className="d-flex mb-3">
-//                 <div className="me-4">
-//                   <h6 className="detail-label">Category</h6>
-//                   <span className="badge-category">{issueData.category}</span>
-//                 </div>
-//                 <div>
-//                   <h6 className="detail-label">Tags</h6>
-//                   <div className="d-flex flex-wrap">
-//                     {issueData.tags.map(tag => (
-//                       <span key={tag} className="badge-tag me-2 mb-1">{tag}</span>
-//                     ))}
-//                   </div>
-//                 </div>
-//               </div>
-//               <div className="location-info">
-//                 <h6 className="detail-label">Location</h6>
-//                 <p><i className="bi bi-geo-alt-fill me-1"></i> {issueData.location}</p>
-//               </div>
-//             </Card.Body>
-//           </Card>
-          
-//           <Card className="detail-card mb-4">
-//             <Card.Body>
-//               <h5><i className="bi bi-image me-2"></i>Media & Evidence</h5>
-//               {issueData.media.photo && (
-//                 <div className="media-container mb-3">
-//                   <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                     <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                     <a href={issueData.media.photo} download><FaDownload /></a>
-//                   </div>
-//                   <img src={issueData.media.photo} alt="Pothole" className="img-fluid rounded" />
-//                 </div>
-//               )}
-//               {issueData.media.audio && (
-//                 <div className="media-container mt-4">
-//                   <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                     <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio (0:45)</span>
-//                     <div>
-//                       <i className="bi bi-play-fill me-2"></i>
-//                       <a href={issueData.media.audio.url} download><FaDownload /></a>
-//                     </div>
-//                   </div>
-//                   <Card className="transcription-card">
-//                     <Card.Body>
-//                       <h6 className="mb-2">Audio Transcription:</h6>
-//                       <p className="mb-0">"{issueData.media.audio.transcription}"</p>
-//                     </Card.Body>
-//                   </Card>
-//                 </div>
-//               )}
-//             </Card.Body>
-//           </Card>
-          
-//           <Card className="detail-card mb-4">
-//             <Card.Body>
-//               <h5><i className="bi bi-clock me-2"></i>Timeline</h5>
-//               <ul className="timeline-list">
-//                 {issueData.timeline.map((event, index) => (
-//                   <li key={index} className="timeline-item d-flex mb-3">
-//                     <div className="timeline-icon me-3">
-//                       <i className="bi bi-exclamation-triangle-fill"></i>
-//                     </div>
-//                     <div className="timeline-content">
-//                       <h6 className="mb-0">{event.type}</h6>
-//                       <p className="text-muted mb-0">Complaint submitted by citizen</p>
-//                       <small className="text-muted"><i className="bi bi-person-fill me-1"></i>{event.by} | {event.date}</small>
-//                     </div>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </Card.Body>
-//           </Card>
-//         </Col>
-        
-//         <Col md={4}>
-//           <div className="right-sidebar">
-//             <Card className="sidebar-card status-card mb-4">
-//               <Card.Body>
-//                 <h5>Status & Priority</h5>
-//                 <div className="d-flex justify-content-between align-items-center mb-3">
-//                   <span className="sidebar-label">Status:</span>
-//                   <span className={`status-badge status-${issueData.status.toLowerCase()}`}>{issueData.status}</span>
-//                 </div>
-//                 <div className="d-flex justify-content-between align-items-center mb-4">
-//                   <span className="sidebar-label">Priority:</span>
-//                   <span className={`priority-badge priority-${issueData.priority.toLowerCase()}`}>{issueData.priority}</span>
-//                 </div>
-//                 <Form>
-//                   <Form.Group className="mb-3">
-//                     <Form.Label>Update Status</Form.Label>
-//                     <Form.Select>
-//                       <option>Open</option>
-//                       <option>Assigned</option>
-//                       <option>In Progress</option>
-//                       <option>Resolved</option>
-//                     </Form.Select>
-//                   </Form.Group>
-//                   <Form.Group className="mb-3">
-//                     <Form.Label>Update Priority</Form.Label>
-//                     <Form.Select>
-//                       <option>High</option>
-//                       <option>Critical</option>
-//                       <option>Medium</option>
-//                       <option>Low</option>
-//                     </Form.Select>
-//                   </Form.Group>
-//                 </Form>
-//               </Card.Body>
-//             </Card>
-            
-//             <Card className="sidebar-card mb-4">
-//               <Card.Body>
-//                 <h5>Assignment</h5>
-//                 <div className="d-flex align-items-center mb-2">
-//                   <i className="bi bi-building-fill me-2"></i>
-//                   <Form.Select className="w-auto">
-//                     <option>{issueData.assignment.department}</option>
-//                   </Form.Select>
-//                 </div>
-//                 <div className="d-flex align-items-center">
-//                   <i className="bi bi-person-fill me-2"></i>
-//                   <span>{issueData.assignment.assignedTo}</span>
-//                 </div>
-//               </Card.Body>
-//             </Card>
-            
-//             <Card className="sidebar-card mb-4">
-//               <Card.Body>
-//                 <h5>Reporter Information</h5>
-//                 <div className="d-flex align-items-center mb-2">
-//                   <i className="bi bi-person-fill me-2"></i>
-//                   <span>{issueData.reporter.name}</span>
-//                 </div>
-//                 <div className="d-flex align-items-center">
-//                   <i className="bi bi-envelope-fill me-2"></i>
-//                   <span>{issueData.reporter.contact}</span>
-//                 </div>
-//               </Card.Body>
-//             </Card>
-            
-//             <Card className="sidebar-card actions-card mb-4">
-//               <Card.Body>
-//                 <h5>Actions</h5>
-//                 <div className="d-grid gap-2">
-//                   <Button variant="success"><i className="bi bi-check-circle-fill me-2"></i> Mark as Resolved</Button>
-//                   <Button variant="outline-secondary"><FaPencilAlt className="me-2" /> Edit Complaint</Button>
-//                   <Button variant="outline-secondary"><FaComment className="me-2" /> Add Comment</Button>
-//                   <Button variant="outline-secondary"><FaShareAlt className="me-2" /> Share with Team</Button>
-//                   <hr />
-//                   <Button variant="outline-danger"><FaExclamationCircle className="me-2" /> Escalate Issue</Button>
-//                   <Button variant="outline-danger"><FaTimesCircle className="me-2" /> Close Complaint</Button>
-//                 </div>
-//               </Card.Body>
-//             </Card>
-//           </div>
-//         </Col>
-//       </Row>
-//     </div>
-//   );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Dropdown, Button, Form } from 'react-bootstrap';
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-// import { doc, getDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-
-//     useEffect(() => {
-//         const fetchIssueDetails = async () => {
-//             if (!id) {
-//                 setLoading(false);
-//                 return;
-//             }
-            
-//             try {
-//                 const docRef = doc(db, "reports", id);
-//                 const docSnap = await getDoc(docRef);
-
-//                 if (docSnap.exists()) {
-//                     const issueData = docSnap.data();
-                    
-//                     // Convert Firestore Timestamps to a readable string
-//                     if (issueData.date && typeof issueData.date.toDate === 'function') {
-//                         issueData.date = issueData.date.toDate().toLocaleDateString();
-//                     }
-//                     if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                         issueData.createdAt = issueData.createdAt.toDate().toLocaleDateString();
-//                     }
-//                     if (issueData.timeline) {
-//                         issueData.timeline = issueData.timeline.map(event => {
-//                             if (event.date && typeof event.date.toDate === 'function') {
-//                                 return {
-//                                     ...event,
-//                                     date: event.date.toDate().toLocaleString()
-//                                 };
-//                             }
-//                             return event;
-//                         });
-//                     }
-
-//                     setIssue(issueData);
-//                 } else {
-//                     console.log("No such document!");
-//                     setIssue(null);
-//                 }
-//             } catch (error) {
-//                 console.error("Error fetching document:", error);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchIssueDetails();
-//     }, [id]); // The effect re-runs when the ID in the URL changes
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-            
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.title || 'N/A'}</p>
-            
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="d-flex mb-3">
-//                                 <div className="me-4">
-//                                     <h6 className="detail-label">Category</h6>
-//                                     <span className="badge-category">{issue.category || 'N/A'}</span>
-//                                 </div>
-//                                 <div>
-//                                     <h6 className="detail-label">Tags</h6>
-//                                     <div className="d-flex flex-wrap">
-//                                         {issue.tags && issue.tags.length > 0 ? (
-//                                             issue.tags.map((tag, index) => (
-//                                                 <span key={index} className="badge-tag me-2 mb-1">{tag}</span>
-//                                             ))
-//                                         ) : (
-//                                             <span className="text-muted">No tags</span>
-//                                         )}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                             <div className="location-info">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-                    
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-image me-2"></i>Media & Evidence</h5>
-//                             {issue.media?.photo && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.media.photo} download><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.media.photo} alt="Issue evidence" className="img-fluid rounded" />
-//                                 </div>
-//                             )}
-
-//                             {issue.media?.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio (0:45)</span>
-//                                         <div>
-//                                             <i className="bi bi-play-fill me-2"></i>
-//                                             <a href={issue.media.audio.url} download><FaDownload /></a>
-//                                         </div>
-//                                     </div>
-//                                     <Card className="transcription-card">
-//                                         <Card.Body>
-//                                             <h6 className="mb-2">Audio Transcription:</h6>
-//                                             <p className="mb-0">"{issue.media.audio.transcription}"</p>
-//                                         </Card.Body>
-//                                     </Card>
-//                                 </div>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-                    
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-clock me-2"></i>Timeline</h5>
-//                             <ul className="timeline-list">
-//                                 {issue.timeline && issue.timeline.length > 0 ? (
-//                                     issue.timeline.map((event, index) => (
-//                                         <li key={index} className="timeline-item d-flex mb-3">
-//                                             <div className="timeline-icon me-3">
-//                                                 <i className="bi bi-exclamation-triangle-fill"></i>
-//                                             </div>
-//                                             <div className="timeline-content">
-//                                                 <h6 className="mb-0">{event.type || 'N/A'}</h6>
-//                                                 <p className="text-muted mb-0">Complaint submitted by citizen</p>
-//                                                 <small className="text-muted"><i className="bi bi-person-fill me-1"></i>{event.by || 'N/A'} | {event.date || 'N/A'}</small>
-//                                             </div>
-//                                         </li>
-//                                     ))
-//                                 ) : (
-//                                     <p className="text-muted">No timeline events to display.</p>
-//                                 )}
-//                             </ul>
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-                
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <div className="d-flex justify-content-between align-items-center mb-3">
-//                                     <span className="sidebar-label">Status:</span>
-//                                     <span className={`status-badge status-${(issue.status || 'na').toLowerCase().replace(' ', '-')}`}>{issue.status || 'N/A'}</span>
-//                                 </div>
-//                                 <div className="d-flex justify-content-between align-items-center mb-4">
-//                                     <span className="sidebar-label">Priority:</span>
-//                                     <span className={`priority-badge priority-${(issue.priority || 'na').toLowerCase()}`}>{issue.priority || 'N/A'}</span>
-//                                 </div>
-//                                 <Form>
-//                                     <Form.Group className="mb-3">
-//                                         <Form.Label>Update Status</Form.Label>
-//                                         <Form.Select>
-//                                             <option>Open</option>
-//                                             <option>Assigned</option>
-//                                             <option>In Progress</option>
-//                                             <option>Resolved</option>
-//                                         </Form.Select>
-//                                     </Form.Group>
-//                                     <Form.Group className="mb-3">
-//                                         <Form.Label>Update Priority</Form.Label>
-//                                         <Form.Select>
-//                                             <option>High</option>
-//                                             <option>Critical</option>
-//                                             <option>Medium</option>
-//                                             <option>Low</option>
-//                                         </Form.Select>
-//                                     </Form.Group>
-//                                 </Form>
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assignment</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     <Form.Select className="w-auto">
-//                                         <option>{issue.assignment?.department || 'Unassigned'}</option>
-//                                     </Form.Select>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.assignment?.assignedTo || 'Unassigned'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Reporter Information</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.reporter?.name || 'Anonymous'}</span>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-envelope-fill me-2"></i>
-//                                     <span>{issue.reporter?.contact || 'N/A'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Card className="sidebar-card actions-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Actions</h5>
-//                                 <div className="d-grid gap-2">
-//                                     <Button variant="success"><i className="bi bi-check-circle-fill me-2"></i> Mark as Resolved</Button>
-//                                     <Button variant="outline-secondary"><FaPencilAlt className="me-2" /> Edit Complaint</Button>
-//                                     <Button variant="outline-secondary"><FaComment className="me-2" /> Add Comment</Button>
-//                                     <Button variant="outline-secondary"><FaShareAlt className="me-2" /> Share with Team</Button>
-//                                     <hr />
-//                                     <Button variant="outline-danger"><FaExclamationCircle className="me-2" /> Escalate Issue</Button>
-//                                     <Button variant="outline-danger"><FaTimesCircle className="me-2" /> Close Complaint</Button>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Dropdown, Button, Form } from 'react-bootstrap';
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-// import { doc, getDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-
-//     useEffect(() => {
-//         const fetchIssueDetails = async () => {
-//             if (!id) {
-//                 setLoading(false);
-//                 return;
-//             }
-
-//             try {
-//                 const docRef = doc(db, "reports", id);
-//                 const docSnap = await getDoc(docRef);
-
-//                 if (docSnap.exists()) {
-//                     const issueData = docSnap.data();
-
-//                     if (issueData.date && typeof issueData.date.toDate === 'function') {
-//                         issueData.date = issueData.date.toDate().toLocaleDateString();
-//                     }
-//                     if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                         issueData.createdAt = issueData.createdAt.toDate().toLocaleDateString();
-//                     }
-//                     if (issueData.timeline) {
-//                         issueData.timeline = issueData.timeline.map(event => {
-//                             if (event.date && typeof event.date.toDate === 'function') {
-//                                 return {
-//                                     ...event,
-//                                     date: event.date.toDate().toLocaleString()
-//                                 };
-//                             }
-//                             return event;
-//                         });
-//                     }
-
-//                     setIssue(issueData);
-//                 } else {
-//                     console.log("No such document!");
-//                     setIssue(null);
-//                 }
-//             } catch (error) {
-//                 console.error("Error fetching document:", error);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.title || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="d-flex mb-3">
-//                                 <div className="me-4">
-//                                     <h6 className="detail-label">Category</h6>
-//                                     <span className="badge-category">{issue.category || 'N/A'}</span>
-//                                 </div>
-//                                 <div>
-//                                     <h6 className="detail-label">Tags</h6>
-//                                     <div className="d-flex flex-wrap">
-//                                         {issue.tags && issue.tags.length > 0 ? (
-//                                             issue.tags.map((tag, index) => (
-//                                                 <span key={index} className="badge-tag me-2 mb-1">{tag}</span>
-//                                             ))
-//                                         ) : (
-//                                             <span className="text-muted">No tags</span>
-//                                         )}
-//                                     </div>
-//                                 </div>
-//                             </div>
-//                             <div className="location-info">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-image me-2"></i>Media & Evidence</h5>
-//                             {issue.media?.photo && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.media.photo} download><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.media.photo} alt="Issue evidence" className="img-fluid rounded" />
-//                                 </div>
-//                             )}
-
-//                             {/* Added Video Player */}
-//                             {issue.media?.video && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-camera-video-fill me-1"></i> Video</span>
-//                                         <a href={issue.media.video} download><FaDownload /></a>
-//                                     </div>
-//                                     <video controls className="w-100 rounded">
-//                                         <source src={issue.media.video} type="video/mp4" />
-//                                         Your browser does not support the video tag.
-//                                     </video>
-//                                 </div>
-//                             )}
-
-//                             {/* Updated Audio Player */}
-//                             {issue.media?.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.media.audio} download><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.media.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                     {issue.media.transcription && (
-//                                       <Card className="transcription-card mt-2">
-//                                         <Card.Body>
-//                                           <h6 className="mb-2">Audio Transcription:</h6>
-//                                           <p className="mb-0">"{issue.media.transcription}"</p>
-//                                         </Card.Body>
-//                                       </Card>
-//                                     )}
-//                                 </div>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-clock me-2"></i>Timeline</h5>
-//                             <ul className="timeline-list">
-//                                 {issue.timeline && issue.timeline.length > 0 ? (
-//                                     issue.timeline.map((event, index) => (
-//                                         <li key={index} className="timeline-item d-flex mb-3">
-//                                             <div className="timeline-icon me-3">
-//                                                 <i className="bi bi-exclamation-triangle-fill"></i>
-//                                             </div>
-//                                             <div className="timeline-content">
-//                                                 <h6 className="mb-0">{event.type || 'N/A'}</h6>
-//                                                 <p className="text-muted mb-0">Complaint submitted by citizen</p>
-//                                                 <small className="text-muted"><i className="bi bi-person-fill me-1"></i>{event.by || 'N/A'} | {event.date || 'N/A'}</small>
-//                                             </div>
-//                                         </li>
-//                                     ))
-//                                 ) : (
-//                                     <p className="text-muted">No timeline events to display.</p>
-//                                 )}
-//                             </ul>
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <div className="d-flex justify-content-between align-items-center mb-3">
-//                                     <span className="sidebar-label">Status:</span>
-//                                     <span className={`status-badge status-${(issue.status || 'na').toLowerCase().replace(' ', '-')}`}>{issue.status || 'N/A'}</span>
-//                                 </div>
-//                                 <div className="d-flex justify-content-between align-items-center mb-4">
-//                                     <span className="sidebar-label">Priority:</span>
-//                                     <span className={`priority-badge priority-${(issue.priority || 'na').toLowerCase()}`}>{issue.priority || 'N/A'}</span>
-//                                 </div>
-//                                 <Form>
-//                                     <Form.Group className="mb-3">
-//                                         <Form.Label>Update Status</Form.Label>
-//                                         <Form.Select>
-//                                             <option>Open</option>
-//                                             <option>Assigned</option>
-//                                             <option>In Progress</option>
-//                                             <option>Resolved</option>
-//                                         </Form.Select>
-//                                     </Form.Group>
-//                                     <Form.Group className="mb-3">
-//                                         <Form.Label>Update Priority</Form.Label>
-//                                         <Form.Select>
-//                                             <option>High</option>
-//                                             <option>Critical</option>
-//                                             <option>Medium</option>
-//                                             <option>Low</option>
-//                                         </Form.Select>
-//                                     </Form.Group>
-//                                 </Form>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assignment</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     <Form.Select className="w-auto">
-//                                         <option>{issue.assignment?.department || 'Unassigned'}</option>
-//                                     </Form.Select>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.assignment?.assignedTo || 'Unassigned'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Reporter Information</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.reporter?.name || 'Anonymous'}</span>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-envelope-fill me-2"></i>
-//                                     <span>{issue.reporter?.contact || 'N/A'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card actions-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Actions</h5>
-//                                 <div className="d-grid gap-2">
-//                                     <Button variant="success"><i className="bi bi-check-circle-fill me-2"></i> Mark as Resolved</Button>
-//                                     <Button variant="outline-secondary"><FaPencilAlt className="me-2" /> Edit Complaint</Button>
-//                                     <Button variant="outline-secondary"><FaComment className="me-2" /> Add Comment</Button>
-//                                     <Button variant="outline-secondary"><FaShareAlt className="me-2" /> Share with Team</Button>
-//                                     <hr />
-//                                     <Button variant="outline-danger"><FaExclamationCircle className="me-2" /> Escalate Issue</Button>
-//                                     <Button variant="outline-danger"><FaTimesCircle className="me-2" /> Close Complaint</Button>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Dropdown, Button, Form } from 'react-bootstrap';
-// // Make sure FaDownload is imported from react-icons
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-// import { doc, getDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-
-//     useEffect(() => {
-//         const fetchIssueDetails = async () => {
-//             if (!id) {
-//                 setLoading(false);
-//                 return;
-//             }
-
-//             try {
-//                 const docRef = doc(db, "reports", id);
-//                 const docSnap = await getDoc(docRef);
-
-//                 if (docSnap.exists()) {
-//                     const issueData = docSnap.data();
-
-//                     // Convert Firestore Timestamps to readable dates
-//                     if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                         issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                     }
-                    
-//                     setIssue(issueData);
-//                 } else {
-//                     console.log("No such document!");
-//                     setIssue(null);
-//                 }
-//             } catch (error) {
-//                 console.error("Error fetching document:", error);
-//             } finally {
-//                 setLoading(false);
-//             }
-//         };
-
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     {/* Complaint Details Card */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="location-info">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* --- MODIFIED MEDIA & EVIDENCE CARD --- */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-
-//                             {/* Image Display Logic */}
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-
-//                             {/* Audio Player Logic */}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-
-//                             {/* Message if no media is available */}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* Timeline Card */}
-//                     <Card className="detail-card mb-4">
-//                        {/* ... your timeline card remains the same ... */}
-//                     </Card>
-//                 </Col>
-
-//                 <Col md={4}>
-//                    {/* ... your right sidebar with status, actions, etc., remains the same ... */}
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     // Function to fetch issue details
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-
-//                 // Convert Firestore Timestamps to readable dates
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-                
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending'); // Set initial status
-//                 setPriority(issueData.priority || 'Medium'); // Set initial priority
-//             } else {
-//                 console.log("No such document!");
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     // Function to handle status/priority updates
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             // Re-fetch data to show the update
-//             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     {/* Complaint Details Card */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="location-info">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* Media & Evidence Card */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-
-//                 {/* --- FULL RIGHT SIDEBAR --- */}
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                                     Save Changes
-//                                 </Button>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assignment</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     <span>{issue.assignment?.department || 'Unassigned'}</span>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.assignment?.assignedTo || 'Unassigned'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Reporter Information</h5>
-//                                 <div className="d-flex align-items-center mb-2">
-//                                     <i className="bi bi-person-fill me-2"></i>
-//                                     <span>{issue.reporter?.name || 'Anonymous'}</span>
-//                                 </div>
-//                                 <div className="d-flex align-items-center">
-//                                     <i className="bi bi-envelope-fill me-2"></i>
-//                                     <span>{issue.reporter?.contact || 'N/A'}</span>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card actions-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Actions</h5>
-//                                 <div className="d-grid gap-2">
-//                                     <Button variant="outline-secondary"><FaPencilAlt className="me-2" /> Edit Complaint</Button>
-//                                     <Button variant="outline-secondary"><FaComment className="me-2" /> Add Comment</Button>
-//                                     <Button variant="outline-secondary"><FaShareAlt className="me-2" /> Share with Team</Button>
-//                                     <hr />
-//                                     <Button variant="outline-danger"><FaExclamationCircle className="me-2" /> Escalate Issue</Button>
-//                                     <Button variant="outline-danger"><FaTimesCircle className="me-2" /> Close Complaint</Button>
-//                                 </div>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// src/pages/IssueDetailsPage.js
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload, FaPencilAlt, FaComment, FaShareAlt, FaExclamationCircle, FaTimesCircle } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 console.log("No such document!");
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails();
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-    
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="location-info">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                                 {locationCoords && (
-//                                     <Link 
-//                                         to="/map" 
-//                                         state={{ center: locationCoords }}
-//                                         className="fw-bold"
-//                                     >
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                                     Save Changes
-//                                 </Button>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails();
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-0"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* Media & Evidence Card */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                                     Save Changes
-//                                 </Button>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails();
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     // Helper function to parse coordinates safely
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-                                
-//                                 {/* --- "VIEW ON MAP" LINK ADDED BACK IN --- */}
-//                                 {locationCoords && (
-//                                     <Link 
-//                                         to="/map" 
-//                                         state={{ center: locationCoords }}
-//                                         className="fw-bold"
-//                                     >
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* Media & Evidence Card */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                                     Save Changes
-//                                 </Button>
-//                             </Card.Body>
-//                         </Card>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
 // import React, { useState, useEffect } from 'react';
 // import { useParams, Link } from 'react-router-dom';
 // import { Card, Row, Col, Button, Form } from 'react-bootstrap';
@@ -1647,6 +5,7 @@
 // import { doc, getDoc, updateDoc } from "firebase/firestore";
 // import { db } from "../lib/firebaseconfig";
 // import { departments } from '../lib/departments';
+// import emailjs from '@emailjs/browser';
 
 // const IssueDetailsPage = () => {
 //     const { id } = useParams();
@@ -1683,932 +42,54 @@
 
 //     useEffect(() => {
 //         fetchIssueDetails();
+//         // eslint-disable-next-line react-hooks/exhaustive-deps
 //     }, [id]);
 
 //     const handleUpdate = async () => {
 //         if (!id) return;
-//         const docRef = doc(db, "reports", id);
+
+//         // 1. Update Firestore first (Your existing logic)
+//         const docRef = doc(db, "reports", id); // Confirmed collection is 'reports'
 //         try {
 //             await updateDoc(docRef, {
 //                 status: status,
 //                 priority: priority
 //             });
-//             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
 
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
+//             // 2. CHECK: Did we just mark it as Resolved?
+//             if (status === "Resolved") {
+//                 console.log("Status is Resolved. Attempting to send email...");
 
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
+//                 // Prepare the email parameters
+//                 const emailParams = {
+//                     // We use "Citizen" because 'userName' is missing in your DB screenshot
+//                     user_name: "Citizen", 
+//                     user_email: issue.userEmail, // Confirmed field name from your screenshot
+//                     issue_desc: issue.description,
+//                     issue_id: id,
+//                     issue_type: issue.type,
+//                     resolution_date: new Date().toLocaleDateString()
+//                 };
 
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-                                
-//                                 {/* --- "VIEW ON MAP" LINK IS INCLUDED --- */}
-//                                 {locationCoords && (
-//                                     <Link 
-//                                         to="/map" 
-//                                         state={{ center: locationCoords }}
-//                                         className="fw-bold"
-//                                     >
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     {/* --- MEDIA & EVIDENCE CARD IS COMPLETE --- */}
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         {/* --- STATUS & PRIORITY CARD IS COMPLETE --- */}
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                             </Card.Body>
-//                         </Card>
-
-//                         {/* --- ASSIGNED DEPARTMENT CARD IS INCLUDED --- */}
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assigned Department</h5>
-//                                 <p className="fw-bold mb-0">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     {issue.assignedDepartment || 'Unassigned'}
-//                                 </p>
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                             Save Changes
-//                         </Button>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-// import { departments } from '../lib/departments';
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
+//                 // Send the email
+//                 try {
+//                     await emailjs.send(
+//                         "service_1fioyb8",      // Your Service ID
+//                         "template_xjfj6ho",     // Your Template ID
+//                         emailParams,
+//                         "Kx-_Am2x6azE2uewb"       // Your Public Key
+//                     );
+//                     alert('Issue updated & Resolution Email sent to user! ✅');
+//                 } catch (emailError) {
+//                     console.error("Firebase updated, but Email failed:", emailError);
+//                     alert('Issue updated, but failed to send email. Check console for errors.');
 //                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
 //             } else {
-//                 setIssue(null);
+//                 // If status is NOT 'Resolved', just show success message
+//                 alert('Issue updated successfully!');
 //             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
 
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
 //             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     // Helper function for the "View on Map" link
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     // Logic for the "Draft Email" button
-//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
-//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
-
-//     let mailtoLink = '';
-//     if (departmentEmail) {
-//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
-//         const body = `
-// Dear ${issue.assignedDepartment},
-
-// Please review the following reported issue:
-
-// - Issue ID: ${id}
-// - Type: ${issue.type || 'N/A'}
-// - Location: ${issue.location || 'N/A'}
-// - Reported On: ${issue.createdAt || 'N/A'}
-// - Priority: ${priority} 
-// - Status: ${status}
-
-// Description:
-// ${issue.description || 'N/A'}
-
-// Thank you.
-//         `;
-//         mailtoLink = `mailto:${departmentEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.trim())}`;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-                            
-//                             {issue.tags && (
-//                                 <div className="mb-3">
-//                                     <h6 className="detail-label">Tags</h6>
-//                                     <div className="d-flex flex-wrap">
-//                                         {issue.tags.split(',').map((tag, index) => (
-//                                             <span key={index} className="badge-tag me-2 mb-2">
-//                                                 {tag.trim()}
-//                                             </span>
-//                                         ))}
-//                                     </div>
-//                                 </div>
-//                             )}
-
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                                 {locationCoords && (
-//                                     <Link to="/map" state={{ center: locationCoords }} className="fw-bold">
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assigned Department</h5>
-//                                 <p className="fw-bold mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     {issue.assignedDepartment || 'Unassigned'}
-//                                 </p>
-//                                 {departmentEmail && (
-//                                     <Button as="a" href={mailtoLink} variant="outline-primary" className="w-100 mt-2">
-//                                         <i className="bi bi-envelope-fill me-2"></i>
-//                                         Draft Email to Department
-//                                     </Button>
-//                                 )}
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                             Save Changes
-//                         </Button>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-// import { departments } from '../lib/departments';
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     // Helper function for the "View on Map" link
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     // Logic for the "Draft Email" button
-//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
-//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
-
-//     let mailtoLink = '';
-//     if (departmentEmail) {
-//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
-//         const body = `
-// Dear ${issue.assignedDepartment},
-
-// Please review the following reported issue:
-
-// - Issue ID: ${id}
-// - Type: ${issue.type || 'N/A'}
-// - Location: ${issue.location || 'N/A'}
-// - Reported On: ${issue.createdAt || 'N/A'}
-// - Priority: ${priority} 
-// - Status: ${status}
-
-// Description:
-// ${issue.description || 'N/A'}
-
-// Thank you.
-//         `;
-//         mailtoLink = `mailto:${departmentEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.trim())}`;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-                            
-//                             {/* --- TAGS ARE DISPLAYED HERE --- */}
-//                             {issue.tags && (
-//                                 <div className="mb-3">
-//                                     <h6 className="detail-label">Tags</h6>
-//                                     <div className="d-flex flex-wrap">
-//                                         {issue.tags.split(',').map((tag, index) => (
-//                                             <span key={index} className="badge-tag me-2 mb-2">
-//                                                 {tag.trim()}
-//                                             </span>
-//                                         ))}
-//                                     </div>
-//                                 </div>
-//                             )}
-
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                                 {locationCoords && (
-//                                     <Link to="/map" state={{ center: locationCoords }} className="fw-bold">
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                             </Card.Body>
-//                         </Card>
-
-//                         {/* --- DEPARTMENT AND EMAIL BUTTON ARE DISPLAYED HERE --- */}
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assigned Department</h5>
-//                                 <p className="fw-bold mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     {issue.assignedDepartment || 'Unassigned'}
-//                                 </p>
-//                                 {departmentEmail && (
-//                                     <Button as="a" href={mailtoLink} variant="outline-primary" className="w-100 mt-2">
-//                                         <i className="bi bi-envelope-fill me-2"></i>
-//                                         Draft Email to Department
-//                                     </Button>
-//                                 )}
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                             Save Changes
-//                         </Button>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-// import { departments } from '../lib/departments';
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
-//         } catch (error) {
-//             console.error("Error updating document: ", error);
-//             alert('Failed to update issue.');
-//         }
-//     };
-
-//     if (loading) {
-//         return <div className="p-4 text-center">Loading issue details...</div>;
-//     }
-
-//     if (!issue) {
-//         return <div className="p-4 text-center">Issue not found.</div>;
-//     }
-
-//     // This logic now runs safely after the loading and issue checks
-//     const getLocationCoords = () => {
-//         if (!issue.location || typeof issue.location !== 'string') return null;
-//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-//             return coords;
-//         }
-//         return null;
-//     };
-//     const locationCoords = getLocationCoords();
-
-//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
-//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
-
-//     let mailtoLink = '';
-//     if (departmentEmail) {
-//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
-//         const body = `
-// Dear ${issue.assignedDepartment},
-
-// Please review the following reported issue:
-
-// - Issue ID: ${id}
-// - Type: ${issue.type || 'N/A'}
-// - Location: ${issue.location || 'N/A'}
-// - Reported On: ${issue.createdAt || 'N/A'}
-// - Priority: ${priority} 
-// - Status: ${status}
-
-// Description:
-// ${issue.description || 'N/A'}
-
-// Thank you.
-//         `;
-//         mailtoLink = `mailto:${departmentEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.trim())}`;
-//     }
-
-//     return (
-//         <div className="issue-details-page p-4">
-//             <Link to="/issues" className="back-link mb-3 d-inline-block">
-//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
-//             </Link>
-//             <h2 className="issue-id">{id}</h2>
-//             <p className="issue-title">{issue.type || 'N/A'}</p>
-
-//             <Row className="mt-4 g-4">
-//                 <Col md={8}>
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5>Complaint Details</h5>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Description</h6>
-//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
-//                             </div>
-                            
-//                             {issue.tags && (
-//                                 <div className="mb-3">
-//                                     <h6 className="detail-label">Tags</h6>
-//                                     <div className="d-flex flex-wrap">
-//                                         {issue.tags.split(',').map((tag, index) => (
-//                                             <span key={index} className="badge-tag me-2 mb-2">
-//                                                 {tag.trim()}
-//                                             </span>
-//                                         ))}
-//                                     </div>
-//                                 </div>
-//                             )}
-
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Location</h6>
-//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-//                                 {locationCoords && (
-//                                     <Link to="/map" state={{ center: locationCoords }} className="fw-bold">
-//                                         View on Map
-//                                     </Link>
-//                                 )}
-//                             </div>
-//                             <div className="mb-3">
-//                                 <h6 className="detail-label">Reported On</h6>
-//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
-//                             </div>
-//                         </Card.Body>
-//                     </Card>
-
-//                     <Card className="detail-card mb-4">
-//                         <Card.Body>
-//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-//                             {issue.image && (
-//                                 <div className="media-container mb-3">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
-//                                 </div>
-//                             )}
-//                             {issue.audio && (
-//                                 <div className="media-container mt-4">
-//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
-//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
-//                                     </div>
-//                                     <audio controls className="w-100">
-//                                         <source src={issue.audio} type="audio/webm" />
-//                                         Your browser does not support the audio element.
-//                                     </audio>
-//                                 </div>
-//                             )}
-//                             {!issue.image && !issue.audio && (
-//                                 <p className="text-muted">No media was provided for this issue.</p>
-//                             )}
-//                         </Card.Body>
-//                     </Card>
-//                 </Col>
-//                 <Col md={4}>
-//                     <div className="right-sidebar">
-//                         <Card className="sidebar-card status-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Status & Priority</h5>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Status</Form.Label>
-//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
-//                                         <option value="pending">Pending</option>
-//                                         <option value="Assigned">Assigned</option>
-//                                         <option value="In Progress">In Progress</option>
-//                                         <option value="Resolved">Resolved</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                                 <Form.Group className="mb-3">
-//                                     <Form.Label>Update Priority</Form.Label>
-//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
-//                                         <option value="Low">Low</option>
-//                                         <option value="Medium">Medium</option>
-//                                         <option value="High">High</option>
-//                                         <option value="Critical">Critical</option>
-//                                     </Form.Select>
-//                                 </Form.Group>
-//                             </Card.Body>
-//                         </Card>
-
-//                         <Card className="sidebar-card mb-4">
-//                             <Card.Body>
-//                                 <h5>Assigned Department</h5>
-//                                 <p className="fw-bold mb-2">
-//                                     <i className="bi bi-building-fill me-2"></i>
-//                                     {issue.assignedDepartment || 'Unassigned'}
-//                                 </p>
-//                                 {departmentEmail && (
-//                                     <Button as="a" href={mailtoLink} variant="outline-primary" className="w-100 mt-2">
-//                                         <i className="bi bi-envelope-fill me-2"></i>
-//                                         Draft Email to Department
-//                                     </Button>
-//                                 )}
-//                             </Card.Body>
-//                         </Card>
-                        
-//                         <Button variant="primary" className="w-100" onClick={handleUpdate}>
-//                             Save Changes
-//                         </Button>
-//                     </div>
-//                 </Col>
-//             </Row>
-//         </div>
-//     );
-// };
-
-// export default IssueDetailsPage;
-
-// import React, { useState, useEffect } from 'react';
-// import { useParams, Link } from 'react-router-dom';
-// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-// import { FaDownload } from 'react-icons/fa';
-// import { doc, getDoc, updateDoc } from "firebase/firestore";
-// import { db } from "../lib/firebaseconfig";
-// import { departments } from '../lib/departments';
-
-// const IssueDetailsPage = () => {
-//     const { id } = useParams();
-//     const [issue, setIssue] = useState(null);
-//     const [loading, setLoading] = useState(true);
-//     const [status, setStatus] = useState('');
-//     const [priority, setPriority] = useState('');
-
-//     const fetchIssueDetails = async () => {
-//         if (!id) {
-//             setLoading(false);
-//             return;
-//         }
-//         try {
-//             const docRef = doc(db, "reports", id);
-//             const docSnap = await getDoc(docRef);
-//             if (docSnap.exists()) {
-//                 const issueData = docSnap.data();
-//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
-//                 }
-//                 setIssue(issueData);
-//                 setStatus(issueData.status || 'pending');
-//                 setPriority(issueData.priority || 'Medium');
-//             } else {
-//                 setIssue(null);
-//             }
-//         } catch (error) {
-//             console.error("Error fetching document:", error);
-//         } finally {
-//             setLoading(false);
-//         }
-//     };
-
-//     useEffect(() => {
-//         fetchIssueDetails();
-//     }, [id]);
-
-//     const handleUpdate = async () => {
-//         if (!id) return;
-//         const docRef = doc(db, "reports", id);
-//         try {
-//             await updateDoc(docRef, {
-//                 status: status,
-//                 priority: priority
-//             });
-//             fetchIssueDetails(); 
-//             alert('Issue updated successfully!');
 //         } catch (error) {
 //             console.error("Error updating document: ", error);
 //             alert('Failed to update issue.');
@@ -2636,10 +117,15 @@
 //     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
 //     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
 
-//     // This logic now creates a specific Gmail URL
 //     let gmailLink = '';
 //     if (departmentEmail) {
 //         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
+        
+//         // Conditionally add the image link to the body text
+//         const imageLinkText = issue.image 
+//             ? `\n- View Attached Image: ${issue.image}` 
+//             : '';
+
 //         const body = `
 // Dear ${issue.assignedDepartment},
 
@@ -2650,7 +136,7 @@
 // - Location: ${issue.location || 'N/A'}
 // - Reported On: ${issue.createdAt || 'N/A'}
 // - Priority: ${priority} 
-// - Status: ${status}
+// - Status: ${status}${imageLinkText}
 
 // Description:
 // ${issue.description || 'N/A'}
@@ -2799,20 +285,1138 @@
 
 // export default IssueDetailsPage;
 
+
+// import React, { useState, useEffect } from 'react';
+// import { useParams, Link } from 'react-router-dom';
+// import { Card, Row, Col, Button, Form } from 'react-bootstrap';
+// import { FaDownload } from 'react-icons/fa';
+// import { doc, getDoc, updateDoc } from "firebase/firestore";
+// import { db } from "../lib/firebaseconfig";
+// import { departments } from '../lib/departments';
+// import emailjs from '@emailjs/browser';
+
+// const IssueDetailsPage = () => {
+//     const { id } = useParams();
+//     const [issue, setIssue] = useState(null);
+//     const [loading, setLoading] = useState(true);
+//     const [status, setStatus] = useState('');
+//     const [priority, setPriority] = useState('');
+
+//     const fetchIssueDetails = async () => {
+//         if (!id) {
+//             setLoading(false);
+//             return;
+//         }
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             const docSnap = await getDoc(docRef);
+//             if (docSnap.exists()) {
+//                 const issueData = docSnap.data();
+//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
+//                     issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
+//                 }
+//                 setIssue(issueData);
+//                 setStatus(issueData.status || 'pending');
+//                 setPriority(issueData.priority || 'Medium');
+//             } else {
+//                 setIssue(null);
+//             }
+//         } catch (error) {
+//             console.error("Error fetching document:", error);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchIssueDetails();
+//         // eslint-disable-next-line react-hooks/exhaustive-deps
+//     }, [id]);
+
+//     const handleUpdate = async () => {
+//         if (!id) return;
+
+//         // 1. Update Firestore first
+//         const docRef = doc(db, "reports", id);
+//         try {
+//             await updateDoc(docRef, {
+//                 status: status,
+//                 priority: priority
+//             });
+
+//             // 2. CHECK: Did we just mark it as Resolved?
+//             if (status === "Resolved") {
+//                 console.log("Status is Resolved. Attempting to send email...");
+
+//                 // Prepare the email parameters
+//                 const emailParams = {
+//                     user_name: "Citizen", // Default since userName is missing in DB
+//                     user_email: issue.userEmail,
+//                     issue_desc: issue.description,
+//                     issue_id: id,
+//                     issue_type: issue.type,
+//                     resolution_date: new Date().toLocaleDateString()
+//                 };
+
+//                 // Send the email
+//                 try {
+//                     await emailjs.send(
+//                         "service_1fioyb8",      // Your Service ID
+//                         "template_xjfj6ho",     // Your Template ID
+//                         emailParams,
+//                         "Kx-_Am2x6azE2uewb"       // Your Public Key
+//                     );
+//                     alert('Issue updated & Resolution Email sent to user! ✅');
+//                 } catch (emailError) {
+//                     console.error("Firebase updated, but Email failed:", emailError);
+//                     alert('Issue updated, but failed to send email. Check console for errors.');
+//                 }
+//             } else {
+//                 alert('Issue updated successfully!');
+//             }
+
+//             fetchIssueDetails(); 
+//         } catch (error) {
+//             console.error("Error updating document: ", error);
+//             alert('Failed to update issue.');
+//         }
+//     };
+
+//     if (loading) {
+//         return <div className="p-4 text-center">Loading issue details...</div>;
+//     }
+
+//     if (!issue) {
+//         return <div className="p-4 text-center">Issue not found.</div>;
+//     }
+
+//     const getLocationCoords = () => {
+//         if (!issue.location || typeof issue.location !== 'string') return null;
+//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
+//         if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
+//             return coords;
+//         }
+//         return null;
+//     };
+//     const locationCoords = getLocationCoords();
+
+//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
+//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
+
+//     let gmailLink = '';
+//     if (departmentEmail) {
+//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
+        
+//         const imageLinkText = issue.image 
+//             ? `\n- View Attached Image: ${issue.image}` 
+//             : '';
+
+//         const body = `
+// Dear ${issue.assignedDepartment},
+
+// Please review the following reported issue:
+
+// - Issue ID: ${id}
+// - Type: ${issue.type || 'N/A'}
+// - Location: ${issue.location || 'N/A'}
+// - Reported On: ${issue.createdAt || 'N/A'}
+// - Priority: ${priority} 
+// - Status: ${status}${imageLinkText}
+
+// Description:
+// ${issue.description || 'N/A'}
+
+// Thank you.
+//         `;
+//         const gmailBaseUrl = "https://mail.google.com/mail/?view=cm&fs=1";
+//         gmailLink = `${gmailBaseUrl}&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.trim())}`;
+//     }
+
+//     return (
+//         <div className="issue-details-page p-4">
+//             <Link to="/issues" className="back-link mb-3 d-inline-block">
+//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
+//             </Link>
+//             <h2 className="issue-id">{id}</h2>
+//             <p className="issue-title">{issue.type || 'N/A'}</p>
+
+//             <Row className="mt-4 g-4">
+//                 <Col md={8}>
+//                     <Card className="detail-card mb-4">
+//                         <Card.Body>
+//                             <h5>Complaint Details</h5>
+//                             <div className="mb-3">
+//                                 <h6 className="detail-label">Description</h6>
+//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
+//                             </div>
+                            
+//                             {issue.tags && (
+//                                 <div className="mb-3">
+//                                     <h6 className="detail-label">Tags</h6>
+//                                     <div className="d-flex flex-wrap">
+//                                         {issue.tags.split(',').map((tag, index) => (
+//                                             <span key={index} className="badge-tag me-2 mb-2">
+//                                                 {tag.trim()}
+//                                             </span>
+//                                         ))}
+//                                     </div>
+//                                 </div>
+//                             )}
+
+//                             <div className="mb-3">
+//                                 <h6 className="detail-label">Location</h6>
+//                                 <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
+//                                 {locationCoords && (
+//                                     <Link to="/map" state={{ center: locationCoords }} className="fw-bold">
+//                                         View on Map
+//                                     </Link>
+//                                 )}
+//                             </div>
+//                             <div className="mb-3">
+//                                 <h6 className="detail-label">Reported On</h6>
+//                                 <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
+//                             </div>
+//                         </Card.Body>
+//                     </Card>
+
+//                     <Card className="detail-card mb-4">
+//                         <Card.Body>
+//                             <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
+//                             {issue.image && (
+//                                 <div className="media-container mb-3">
+//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
+//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
+//                                     </div>
+//                                     <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
+//                                 </div>
+//                             )}
+//                             {issue.audio && (
+//                                 <div className="media-container mt-4">
+//                                     <div className="media-header d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
+//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
+//                                     </div>
+//                                     <audio controls className="w-100">
+//                                         <source src={issue.audio} type="audio/webm" />
+//                                         Your browser does not support the audio element.
+//                                     </audio>
+//                                 </div>
+//                             )}
+//                             {!issue.image && !issue.audio && (
+//                                 <p className="text-muted">No media was provided for this issue.</p>
+//                             )}
+//                         </Card.Body>
+//                     </Card>
+//                 </Col>
+//                 <Col md={4}>
+//                     <div className="right-sidebar">
+//                         <Card className="sidebar-card status-card mb-4">
+//                             <Card.Body>
+//                                 <h5>Status & Priority</h5>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label>Update Status</Form.Label>
+//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+//                                         <option value="pending">Pending</option>
+//                                         <option value="Assigned">Assigned</option>
+//                                         <option value="In Progress">In Progress</option>
+//                                         <option value="Resolved">Resolved</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label>Update Priority</Form.Label>
+//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
+//                                         <option value="Low">Low</option>
+//                                         <option value="Medium">Medium</option>
+//                                         <option value="High">High</option>
+//                                         <option value="Critical">Critical</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                             </Card.Body>
+//                         </Card>
+
+//                         <Card className="sidebar-card mb-4">
+//                             <Card.Body>
+//                                 <h5>Assigned Department</h5>
+//                                 <p className="fw-bold mb-2">
+//                                     <i className="bi bi-building-fill me-2"></i>
+//                                     {issue.assignedDepartment || 'Unassigned'}
+//                                 </p>
+//                                 {departmentEmail && (
+//                                     <Button 
+//                                         as="a" 
+//                                         href={gmailLink} 
+//                                         target="_blank" 
+//                                         rel="noopener noreferrer"
+//                                         variant="outline-primary" 
+//                                         className="w-100 mt-2"
+//                                     >
+//                                         <i className="bi bi-envelope-fill me-2"></i>
+//                                         Draft Email in Gmail
+//                                     </Button>
+//                                 )}
+//                             </Card.Body>
+//                         </Card>
+                        
+//                         <Button variant="primary" className="w-100" onClick={handleUpdate}>
+//                             Save Changes
+//                         </Button>
+//                     </div>
+//                 </Col>
+//             </Row>
+//         </div>
+//     );
+// };
+
+// export default IssueDetailsPage;
+
+// import React, { useState, useEffect } from 'react';
+// import { useParams, Link } from 'react-router-dom';
+// import { Card, Row, Col, Button, Form, Badge, Alert } from 'react-bootstrap';
+// import { FaDownload, FaCheckCircle, FaFlag, FaRobot, FaRoad, FaExclamationTriangle } from 'react-icons/fa';
+// import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
+// import { db } from "../lib/firebaseconfig";
+// import { departments } from '../lib/departments';
+// import emailjs from '@emailjs/browser';
+
+// // 🧠 IMPORT THE INTELLIGENCE ENGINES
+// // Make sure these files exist in your 'src/lib/' folder!
+// import { getTrafficProfile } from '../lib/trafficOracle';
+// import { analyzeIssueContext } from '../lib/intelligence';
+
+// const IssueDetailsPage = () => {
+//     const { id } = useParams();
+    
+//     // Core Data State
+//     const [issue, setIssue] = useState(null);
+//     const [loading, setLoading] = useState(true);
+    
+//     // Editable State
+//     const [status, setStatus] = useState('');
+//     const [priority, setPriority] = useState('');
+    
+//     // Validation State
+//     const [verificationScore, setVerificationScore] = useState(0);
+//     const [flagCount, setFlagCount] = useState(0);
+
+//     // 🌟 AI & Context State
+//     const [trafficData, setTrafficData] = useState(null);
+//     const [aiInsights, setAiInsights] = useState([]);
+
+//     const fetchIssueDetails = async () => {
+//         if (!id) {
+//             setLoading(false);
+//             return;
+//         }
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             const docSnap = await getDoc(docRef);
+            
+//             if (docSnap.exists()) {
+//                 const issueData = docSnap.data();
+                
+//                 // Format Date safely
+//                 let formattedDate = 'N/A';
+//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
+//                     formattedDate = issueData.createdAt.toDate().toLocaleString();
+//                 } else if (issueData.createdAt) {
+//                     formattedDate = issueData.createdAt.toString();
+//                 }
+                
+//                 // Update State
+//                 setIssue({ ...issueData, createdAtFormatted: formattedDate });
+//                 setStatus(issueData.status || 'pending');
+//                 setPriority(issueData.priority || 'Medium');
+//                 setVerificationScore(issueData.verificationScore || 0);
+//                 setFlagCount(issueData.flagCount || 0);
+
+//                 // ---------------------------------------------------------
+//                 // 🧠 RUN THE INTELLIGENCE LAYERS
+//                 // ---------------------------------------------------------
+//                 if (issueData.location) {
+//                     // 1. Static Traffic Oracle (OSM Data)
+//                     // Checks if the location matches a known Highway
+//                     const trafficInfo = getTrafficProfile(issueData.location);
+//                     setTrafficData(trafficInfo);
+
+//                     // 2. Dynamic Context Engine (Weather/Safety)
+//                     // Checks for Rain/Schools/Hospitals nearby
+//                     analyzeIssueContext(issueData).then(insights => {
+//                         setAiInsights(insights);
+//                     });
+//                 }
+//                 // ---------------------------------------------------------
+
+//             } else {
+//                 setIssue(null);
+//             }
+//         } catch (error) {
+//             console.error("Error fetching document:", error);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchIssueDetails();
+//         // eslint-disable-next-line react-hooks/exhaustive-deps
+//     }, [id]);
+
+//     // --- ACTIONS ---
+
+//     const handleFlagAsFake = async () => {
+//         if(!window.confirm("Are you sure you want to flag this report as FAKE?")) return;
+        
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             await updateDoc(docRef, { flagCount: increment(1) });
+            
+//             const newCount = flagCount + 1;
+//             setFlagCount(newCount);
+
+//             // Auto-Moderation: Mark as Spam if 3+ flags
+//             if (newCount >= 3) {
+//                 await updateDoc(docRef, { status: "Spam", priority: "Low" });
+//                 setStatus("Spam");
+//                 setPriority("Low");
+//                 alert("⚠️ System Alert: This report has been auto-moderated as SPAM due to multiple flags.");
+//             } else {
+//                 alert("Report flagged. Thank you for helping us maintain data quality.");
+//             }
+//         } catch (e) { console.error(e); }
+//     };
+
+//     const handleVerify = async () => {
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             await updateDoc(docRef, { verificationScore: increment(1) });
+//             setVerificationScore(verificationScore + 1);
+//             alert("Verification recorded. Thank you for confirming this issue!");
+//         } catch (e) { console.error(e); }
+//     };
+
+//     const handleUpdate = async () => {
+//         if (!id) return;
+//         const docRef = doc(db, "reports", id);
+//         try {
+//             await updateDoc(docRef, { status, priority });
+
+//             if (status === "Resolved") {
+//                 // Email Logic
+//                 console.log("Status Resolved. Sending Email...");
+//                 const emailParams = {
+//                     user_name: "Citizen",
+//                     user_email: issue.userEmail,
+//                     issue_desc: issue.description,
+//                     issue_id: id,
+//                     issue_type: issue.type,
+//                     resolution_date: new Date().toLocaleDateString()
+//                 };
+//                 try {
+//                     await emailjs.send("service_1fioyb8", "template_xjfj6ho", emailParams, "Kx-_Am2x6azE2uewb");
+//                     alert('Issue updated & Resolution Email sent to user! ✅');
+//                 } catch (err) {
+//                     console.error(err);
+//                     alert('Issue updated, but Email Notification failed.');
+//                 }
+//             } else {
+//                 alert('Issue updated successfully!');
+//             }
+//             fetchIssueDetails();
+//         } catch (error) {
+//             console.error("Error updating:", error);
+//             alert('Update failed. Check console.');
+//         }
+//     };
+
+//     if (loading) return <div className="p-4 text-center">Loading details...</div>;
+//     if (!issue) return <div className="p-4 text-center">Issue not found.</div>;
+
+//     // Helper for Map Link
+//     const getLocationCoords = () => {
+//         if (!issue.location || typeof issue.location !== 'string') return null;
+//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
+//         return (coords.length === 2 && !isNaN(coords[0])) ? coords : null;
+//     };
+//     const locationCoords = getLocationCoords();
+
+//     // Helper for Gmail Link
+//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
+//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
+//     let gmailLink = '';
+//     if (departmentEmail) {
+//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
+//         const body = `Review Request:\nID: ${id}\nType: ${issue.type}\nLocation: ${issue.location}\n\nDesc:\n${issue.description}`;
+//         gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+//     }
+
+//     return (
+//         <div className="issue-details-page p-4">
+//             <Link to="/issues" className="back-link mb-3 d-inline-block text-decoration-none">
+//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
+//             </Link>
+            
+//             <div className="d-flex justify-content-between align-items-start mb-3">
+//                 <div>
+//                     <h2 className="issue-id text-dark mb-0">{id}</h2>
+//                     <span className="badge bg-secondary me-2">{issue.type}</span>
+//                     <span className={`badge bg-${status === 'Resolved' ? 'success' : status === 'Spam' ? 'danger' : 'warning'} text-dark border`}>
+//                         {status}
+//                     </span>
+//                 </div>
+                
+//                 {/* Verification Badges */}
+//                 <div className="text-end">
+//                     <Badge bg="success" className="me-2 p-2"><FaCheckCircle className="me-1"/> Verified: {verificationScore}</Badge>
+//                     <Badge bg="danger" className="p-2"><FaFlag className="me-1"/> Flags: {flagCount}</Badge>
+//                 </div>
+//             </div>
+
+//             {/* ⚠️ SPAM BANNER */}
+//             {flagCount >= 3 && (
+//                 <Alert variant="danger" className="mb-4">
+//                     <FaFlag className="me-2"/> <strong>Community Alert:</strong> This report has been flagged as spam/fake by multiple users.
+//                 </Alert>
+//             )}
+
+//             <Row className="g-4">
+//                 <Col md={8}>
+                    
+//                     {/* 🚦 1. TRAFFIC CONTEXT CARD (The "Oracle") */}
+//                     {trafficData && (
+//                         <div className={`alert alert-${trafficData.color === 'danger' ? 'danger' : 'light'} border shadow-sm mb-4`}>
+//                             <div className="d-flex align-items-start">
+//                                 <div className={`bg-${trafficData.color} text-white rounded p-3 me-3`}>
+//                                     <FaRoad className="fs-3"/>
+//                                 </div>
+//                                 <div>
+//                                     <h5 className={`alert-heading fw-bold text-${trafficData.color} mb-1`}>
+//                                         {trafficData.label}
+//                                     </h5>
+//                                     <p className="mb-0 text-muted small">
+//                                         {trafficData.description}
+//                                     </p>
+//                                     {trafficData.roadName && (
+//                                         <div className="mt-2 fw-bold text-dark small">
+//                                             <i className="bi bi-geo-alt me-1"></i> {trafficData.roadName}
+//                                         </div>
+//                                     )}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     )}
+
+//                     {/* 🧠 2. AI INSIGHTS CARD (The "Intelligence") */}
+//                     {aiInsights.length > 0 && (
+//                         <Card className="mb-4 shadow-sm border-0" style={{background: 'linear-gradient(to right, #f8f9fa, #e9ecef)'}}>
+//                             <Card.Body>
+//                                 <h6 className="mb-3 text-primary fw-bold"><FaRobot className="me-2"/>Smart Context Analysis</h6>
+//                                 {aiInsights.map((insight, idx) => (
+//                                     <Alert key={idx} variant={insight.color} className="d-flex align-items-center py-2 px-3 mb-2">
+//                                         <span className="fs-4 me-3">{insight.icon || <FaExclamationTriangle/>}</span>
+//                                         <div>
+//                                             <strong className="d-block">{insight.title}</strong>
+//                                             <span className="small">{insight.message}</span>
+//                                         </div>
+//                                     </Alert>
+//                                 ))}
+//                             </Card.Body>
+//                         </Card>
+//                     )}
+
+//                     {/* 📄 3. MAIN DETAILS CARD */}
+//                     <Card className="detail-card mb-4 shadow-sm">
+//                         <Card.Body>
+//                             <h5 className="mb-3 border-bottom pb-2">Complaint Details</h5>
+                            
+//                             <div className="mb-3">
+//                                 <h6 className="text-muted small text-uppercase fw-bold">Description</h6>
+//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
+//                             </div>
+
+//                             <Row>
+//                                 <Col md={6}>
+//                                     <div className="mb-3">
+//                                         <h6 className="text-muted small text-uppercase fw-bold">Location</h6>
+//                                         <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
+//                                         {locationCoords && (
+//                                             <Link to="/map" state={{ center: locationCoords }} className="small fw-bold text-primary text-decoration-none">
+//                                                 View on Map &rarr;
+//                                             </Link>
+//                                         )}
+//                                     </div>
+//                                 </Col>
+//                                 <Col md={6}>
+//                                     <div className="mb-3">
+//                                         <h6 className="text-muted small text-uppercase fw-bold">Reported On</h6>
+//                                         <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAtFormatted}</p>
+//                                     </div>
+//                                 </Col>
+//                             </Row>
+
+//                             {issue.tags && (
+//                                 <div className="mb-3">
+//                                     <h6 className="text-muted small text-uppercase fw-bold">Tags</h6>
+//                                     <div>
+//                                         {issue.tags.split(',').map((tag, index) => (
+//                                             <span key={index} className="badge bg-light text-dark border me-1">
+//                                                 {tag.trim()}
+//                                             </span>
+//                                         ))}
+//                                     </div>
+//                                 </div>
+//                             )}
+
+//                             <hr className="my-3"/>
+//                             <div className="d-flex align-items-center">
+//                                 <span className="small text-muted me-3">Is this report accurate?</span>
+//                                 <Button variant="outline-success" size="sm" className="me-2" onClick={handleVerify}>
+//                                     <FaCheckCircle className="me-1"/> I see this too
+//                                 </Button>
+//                                 <Button variant="outline-danger" size="sm" onClick={handleFlagAsFake}>
+//                                     <FaFlag className="me-1"/> Flag as Fake
+//                                 </Button>
+//                             </div>
+//                         </Card.Body>
+//                     </Card>
+
+//                     {/* 📷 MEDIA CARD */}
+//                     <Card className="detail-card mb-4 shadow-sm">
+//                         <Card.Body>
+//                             <h5 className="mb-3 border-bottom pb-2">Media Evidence</h5>
+//                             {issue.image ? (
+//                                 <div>
+//                                     <div className="d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="small text-muted"><i className="bi bi-image me-1"></i> Attached Photo</span>
+//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border">
+//                                             <FaDownload/> Download
+//                                         </a>
+//                                     </div>
+//                                     <img src={issue.image} alt="Evidence" className="img-fluid rounded border" style={{maxHeight:'400px', objectFit:'cover'}} />
+//                                 </div>
+//                             ) : (
+//                                 <p className="text-muted small">No visual evidence provided.</p>
+//                             )}
+                            
+//                             {issue.audio && (
+//                                 <div className="mt-3">
+//                                     <div className="d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="small text-muted"><i className="bi bi-mic-fill me-1"></i> Audio Clip</span>
+//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border">
+//                                             <FaDownload/>
+//                                         </a>
+//                                     </div>
+//                                     <audio controls className="w-100">
+//                                         <source src={issue.audio} type="audio/webm" />
+//                                         Your browser does not support audio.
+//                                     </audio>
+//                                 </div>
+//                             )}
+//                         </Card.Body>
+//                     </Card>
+//                 </Col>
+
+//                 {/* 👉 RIGHT SIDEBAR */}
+//                 <Col md={4}>
+//                     <div className="sticky-top" style={{top: '20px'}}>
+//                         <Card className="sidebar-card mb-3 shadow-sm border-primary">
+//                             <Card.Header className="bg-primary text-white fw-bold">Admin Actions</Card.Header>
+//                             <Card.Body>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label className="small fw-bold">Status</Form.Label>
+//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+//                                         <option value="pending">Pending</option>
+//                                         <option value="Assigned">Assigned</option>
+//                                         <option value="In Progress">In Progress</option>
+//                                         <option value="Resolved">Resolved (Triggers Email)</option>
+//                                         <option value="Spam">Mark as Spam</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label className="small fw-bold">Priority</Form.Label>
+//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
+//                                         <option value="Low">Low</option>
+//                                         <option value="Medium">Medium</option>
+//                                         <option value="High">High</option>
+//                                         <option value="Critical">Critical</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                                 <Button variant="primary" className="w-100 fw-bold" onClick={handleUpdate}>
+//                                     Update Ticket
+//                                 </Button>
+//                             </Card.Body>
+//                         </Card>
+
+//                         <Card className="sidebar-card shadow-sm">
+//                             <Card.Body>
+//                                 <h6 className="fw-bold mb-2">Assigned Department</h6>
+//                                 <div className="p-2 bg-light rounded mb-3 border">
+//                                     <i className="bi bi-building me-2 text-primary"></i>
+//                                     {issue.assignedDepartment || 'Unassigned'}
+//                                 </div>
+//                                 {departmentEmail && (
+//                                     <Button as="a" href={gmailLink} target="_blank" variant="outline-dark" size="sm" className="w-100">
+//                                         <i className="bi bi-envelope-plus me-2"></i> Compose Email
+//                                     </Button>
+//                                 )}
+//                             </Card.Body>
+//                         </Card>
+//                     </div>
+//                 </Col>
+//             </Row>
+//         </div>
+//     );
+// };
+
+// export default IssueDetailsPage;
+
+
+
+// import React, { useState, useEffect } from 'react';
+// import { useParams, Link } from 'react-router-dom';
+// import { Card, Row, Col, Button, Form, Badge, Alert } from 'react-bootstrap';
+// import { FaDownload, FaCheckCircle, FaFlag, FaRobot, FaRoad, FaExclamationTriangle } from 'react-icons/fa';
+// import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
+// import { db } from "../lib/firebaseconfig";
+// import { departments } from '../lib/departments';
+// import emailjs from '@emailjs/browser';
+
+// // 🧠 IMPORT THE INTELLIGENCE ENGINES
+// // Make sure these files exist in your 'src/lib/' folder!
+// import { getTrafficProfile } from '../lib/trafficOracle';
+// import { analyzeIssueContext } from '../lib/intelligence';
+
+// const IssueDetailsPage = () => {
+//     const { id } = useParams();
+    
+//     // Core Data State
+//     const [issue, setIssue] = useState(null);
+//     const [loading, setLoading] = useState(true);
+    
+//     // Editable State
+//     const [status, setStatus] = useState('');
+//     const [priority, setPriority] = useState('');
+    
+//     // Validation State
+//     const [verificationScore, setVerificationScore] = useState(0);
+//     const [flagCount, setFlagCount] = useState(0);
+
+//     // 🌟 AI & Context State
+//     const [trafficData, setTrafficData] = useState(null);
+//     const [aiInsights, setAiInsights] = useState([]);
+
+//     const fetchIssueDetails = async () => {
+//         if (!id) {
+//             setLoading(false);
+//             return;
+//         }
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             const docSnap = await getDoc(docRef);
+            
+//             if (docSnap.exists()) {
+//                 const issueData = docSnap.data();
+                
+//                 // Format Date safely
+//                 let formattedDate = 'N/A';
+//                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
+//                     formattedDate = issueData.createdAt.toDate().toLocaleString();
+//                 } else if (issueData.createdAt) {
+//                     formattedDate = issueData.createdAt.toString();
+//                 }
+                
+//                 // Update State
+//                 setIssue({ ...issueData, createdAtFormatted: formattedDate });
+//                 setStatus(issueData.status || 'pending');
+//                 setPriority(issueData.priority || 'Medium');
+//                 setVerificationScore(issueData.verificationScore || 0);
+//                 setFlagCount(issueData.flagCount || 0);
+
+//                 // ---------------------------------------------------------
+//                 // 🧠 RUN THE INTELLIGENCE LAYERS
+//                 // ---------------------------------------------------------
+//                 if (issueData.location) {
+                    
+//                     // 1. SMART FILTER: Only check Traffic for Road-related issues
+//                     // This prevents "Local Street" from showing up on Garbage reports
+//                     const roadRelatedTypes = ['Pothole', 'Streetlight', 'Accident', 'Road', 'Traffic'];
+//                     const isRoadIssue = roadRelatedTypes.some(t => 
+//                         issueData.type && issueData.type.toLowerCase().includes(t.toLowerCase())
+//                     );
+
+//                     if (isRoadIssue) {
+//                         const trafficInfo = getTrafficProfile(issueData.location);
+//                         setTrafficData(trafficInfo);
+//                     } else {
+//                         setTrafficData(null); // Hide traffic card for non-road issues
+//                     }
+
+//                     // 2. Dynamic Context Engine (Weather/Safety)
+//                     // Checks for Rain/Schools/Hospitals nearby
+//                     analyzeIssueContext(issueData).then(insights => {
+//                         setAiInsights(insights);
+//                     });
+//                 }
+//                 // ---------------------------------------------------------
+
+//             } else {
+//                 setIssue(null);
+//             }
+//         } catch (error) {
+//             console.error("Error fetching document:", error);
+//         } finally {
+//             setLoading(false);
+//         }
+//     };
+
+//     useEffect(() => {
+//         fetchIssueDetails();
+//         // eslint-disable-next-line react-hooks/exhaustive-deps
+//     }, [id]);
+
+//     // --- ACTIONS ---
+
+//     const handleFlagAsFake = async () => {
+//         if(!window.confirm("Are you sure you want to flag this report as FAKE?")) return;
+        
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             await updateDoc(docRef, { flagCount: increment(1) });
+            
+//             const newCount = flagCount + 1;
+//             setFlagCount(newCount);
+
+//             // Auto-Moderation: Mark as Spam if 3+ flags
+//             if (newCount >= 3) {
+//                 await updateDoc(docRef, { status: "Spam", priority: "Low" });
+//                 setStatus("Spam");
+//                 setPriority("Low");
+//                 alert("⚠️ System Alert: This report has been auto-moderated as SPAM due to multiple flags.");
+//             } else {
+//                 alert("Report flagged. Thank you for helping us maintain data quality.");
+//             }
+//         } catch (e) { console.error(e); }
+//     };
+
+//     const handleVerify = async () => {
+//         try {
+//             const docRef = doc(db, "reports", id);
+//             await updateDoc(docRef, { verificationScore: increment(1) });
+//             setVerificationScore(verificationScore + 1);
+//             alert("Verification recorded. Thank you for confirming this issue!");
+//         } catch (e) { console.error(e); }
+//     };
+
+//     const handleUpdate = async () => {
+//         if (!id) return;
+//         const docRef = doc(db, "reports", id);
+//         try {
+//             await updateDoc(docRef, { status, priority });
+
+//             if (status === "Resolved") {
+//                 // Email Logic
+//                 console.log("Status Resolved. Sending Email...");
+//                 const emailParams = {
+//                     user_name: "Citizen",
+//                     user_email: issue.userEmail,
+//                     issue_desc: issue.description,
+//                     issue_id: id,
+//                     issue_type: issue.type,
+//                     resolution_date: new Date().toLocaleDateString()
+//                 };
+//                 try {
+//                     await emailjs.send("service_1fioyb8", "template_xjfj6ho", emailParams, "Kx-_Am2x6azE2uewb");
+//                     alert('Issue updated & Resolution Email sent to user! ✅');
+//                 } catch (err) {
+//                     console.error(err);
+//                     alert('Issue updated, but Email Notification failed.');
+//                 }
+//             } else {
+//                 alert('Issue updated successfully!');
+//             }
+//             fetchIssueDetails();
+//         } catch (error) {
+//             console.error("Error updating:", error);
+//             alert('Update failed. Check console.');
+//         }
+//     };
+
+//     if (loading) return <div className="p-4 text-center">Loading details...</div>;
+//     if (!issue) return <div className="p-4 text-center">Issue not found.</div>;
+
+//     // Helper for Map Link
+//     const getLocationCoords = () => {
+//         if (!issue.location || typeof issue.location !== 'string') return null;
+//         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
+//         return (coords.length === 2 && !isNaN(coords[0])) ? coords : null;
+//     };
+//     const locationCoords = getLocationCoords();
+
+//     // Helper for Gmail Link
+//     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
+//     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
+//     let gmailLink = '';
+//     if (departmentEmail) {
+//         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
+//         const body = `Review Request:\nID: ${id}\nType: ${issue.type}\nLocation: ${issue.location}\n\nDesc:\n${issue.description}`;
+//         gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+//     }
+
+//     return (
+//         <div className="issue-details-page p-4">
+//             <Link to="/issues" className="back-link mb-3 d-inline-block text-decoration-none">
+//                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
+//             </Link>
+            
+//             <div className="d-flex justify-content-between align-items-start mb-3">
+//                 <div>
+//                     <h2 className="issue-id text-dark mb-0">{id}</h2>
+//                     <span className="badge bg-secondary me-2">{issue.type}</span>
+//                     <span className={`badge bg-${status === 'Resolved' ? 'success' : status === 'Spam' ? 'danger' : 'warning'} text-dark border`}>
+//                         {status}
+//                     </span>
+//                 </div>
+                
+//                 {/* Verification Badges */}
+//                 <div className="text-end">
+//                     <Badge bg="success" className="me-2 p-2"><FaCheckCircle className="me-1"/> Verified: {verificationScore}</Badge>
+//                     <Badge bg="danger" className="p-2"><FaFlag className="me-1"/> Flags: {flagCount}</Badge>
+//                 </div>
+//             </div>
+
+//             {/* ⚠️ SPAM BANNER */}
+//             {flagCount >= 3 && (
+//                 <Alert variant="danger" className="mb-4">
+//                     <FaFlag className="me-2"/> <strong>Community Alert:</strong> This report has been flagged as spam/fake by multiple users.
+//                 </Alert>
+//             )}
+
+//             <Row className="g-4">
+//                 <Col md={8}>
+                    
+//                     {/* 🚦 1. TRAFFIC CONTEXT CARD (The "Oracle") */}
+//                     {trafficData && (
+//                         <div className={`alert alert-${trafficData.color === 'danger' ? 'danger' : 'light'} border shadow-sm mb-4`}>
+//                             <div className="d-flex align-items-start">
+//                                 <div className={`bg-${trafficData.color} text-white rounded p-3 me-3`}>
+//                                     <FaRoad className="fs-3"/>
+//                                 </div>
+//                                 <div>
+//                                     <h5 className={`alert-heading fw-bold text-${trafficData.color} mb-1`}>
+//                                         {trafficData.label}
+//                                     </h5>
+//                                     <p className="mb-0 text-muted small">
+//                                         {trafficData.description}
+//                                     </p>
+//                                     {trafficData.roadName && (
+//                                         <div className="mt-2 fw-bold text-dark small">
+//                                             <i className="bi bi-geo-alt me-1"></i> {trafficData.roadName}
+//                                         </div>
+//                                     )}
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     )}
+
+//                     {/* 🧠 2. AI INSIGHTS CARD (The "Intelligence") */}
+//                     {aiInsights.length > 0 && (
+//                         <Card className="mb-4 shadow-sm border-0" style={{background: 'linear-gradient(to right, #f8f9fa, #e9ecef)'}}>
+//                             <Card.Body>
+//                                 <h6 className="mb-3 text-primary fw-bold"><FaRobot className="me-2"/>Smart Context Analysis</h6>
+//                                 {aiInsights.map((insight, idx) => (
+//                                     <Alert key={idx} variant={insight.color} className="d-flex align-items-center py-2 px-3 mb-2">
+//                                         <span className="fs-4 me-3">{insight.icon || <FaExclamationTriangle/>}</span>
+//                                         <div>
+//                                             <strong className="d-block">{insight.title}</strong>
+//                                             <span className="small">{insight.message}</span>
+//                                         </div>
+//                                     </Alert>
+//                                 ))}
+//                             </Card.Body>
+//                         </Card>
+//                     )}
+
+//                     {/* 📄 3. MAIN DETAILS CARD */}
+//                     <Card className="detail-card mb-4 shadow-sm">
+//                         <Card.Body>
+//                             <h5 className="mb-3 border-bottom pb-2">Complaint Details</h5>
+                            
+//                             <div className="mb-3">
+//                                 <h6 className="text-muted small text-uppercase fw-bold">Description</h6>
+//                                 <p className="detail-text">{issue.description || 'N/A'}</p>
+//                             </div>
+
+//                             <Row>
+//                                 <Col md={6}>
+//                                     <div className="mb-3">
+//                                         <h6 className="text-muted small text-uppercase fw-bold">Location</h6>
+//                                         <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
+//                                         {locationCoords && (
+//                                             <Link to="/map" state={{ center: locationCoords }} className="small fw-bold text-primary text-decoration-none">
+//                                                 View on Map &rarr;
+//                                             </Link>
+//                                         )}
+//                                     </div>
+//                                 </Col>
+//                                 <Col md={6}>
+//                                     <div className="mb-3">
+//                                         <h6 className="text-muted small text-uppercase fw-bold">Reported On</h6>
+//                                         <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAtFormatted}</p>
+//                                     </div>
+//                                 </Col>
+//                             </Row>
+
+//                             {issue.tags && (
+//                                 <div className="mb-3">
+//                                     <h6 className="text-muted small text-uppercase fw-bold">Tags</h6>
+//                                     <div>
+//                                         {issue.tags.split(',').map((tag, index) => (
+//                                             <span key={index} className="badge bg-light text-dark border me-1">
+//                                                 {tag.trim()}
+//                                             </span>
+//                                         ))}
+//                                     </div>
+//                                 </div>
+//                             )}
+
+//                             <hr className="my-3"/>
+//                             <div className="d-flex align-items-center">
+//                                 <span className="small text-muted me-3">Is this report accurate?</span>
+//                                 <Button variant="outline-success" size="sm" className="me-2" onClick={handleVerify}>
+//                                     <FaCheckCircle className="me-1"/> I see this too
+//                                 </Button>
+//                                 <Button variant="outline-danger" size="sm" onClick={handleFlagAsFake}>
+//                                     <FaFlag className="me-1"/> Flag as Fake
+//                                 </Button>
+//                             </div>
+//                         </Card.Body>
+//                     </Card>
+
+//                     {/* 📷 MEDIA CARD */}
+//                     <Card className="detail-card mb-4 shadow-sm">
+//                         <Card.Body>
+//                             <h5 className="mb-3 border-bottom pb-2">Media Evidence</h5>
+//                             {issue.image ? (
+//                                 <div>
+//                                     <div className="d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="small text-muted"><i className="bi bi-image me-1"></i> Attached Photo</span>
+//                                         <a href={issue.image} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border">
+//                                             <FaDownload/> Download
+//                                         </a>
+//                                     </div>
+//                                     <img src={issue.image} alt="Evidence" className="img-fluid rounded border" style={{maxHeight:'400px', objectFit:'cover'}} />
+//                                 </div>
+//                             ) : (
+//                                 <p className="text-muted small">No visual evidence provided.</p>
+//                             )}
+                            
+//                             {issue.audio && (
+//                                 <div className="mt-3">
+//                                     <div className="d-flex justify-content-between align-items-center mb-2">
+//                                         <span className="small text-muted"><i className="bi bi-mic-fill me-1"></i> Audio Clip</span>
+//                                         <a href={issue.audio} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border">
+//                                             <FaDownload/>
+//                                         </a>
+//                                     </div>
+//                                     <audio controls className="w-100">
+//                                         <source src={issue.audio} type="audio/webm" />
+//                                         Your browser does not support audio.
+//                                     </audio>
+//                                 </div>
+//                             )}
+//                         </Card.Body>
+//                     </Card>
+//                 </Col>
+
+//                 {/* 👉 RIGHT SIDEBAR */}
+//                 <Col md={4}>
+//                     <div className="sticky-top" style={{top: '20px'}}>
+//                         <Card className="sidebar-card mb-3 shadow-sm border-secondary">
+//                             {/* 👇 GREY HEADER FIX APPLIED HERE */}
+//                             <Card.Header className="text-white fw-bold" style={{ backgroundColor: '#6c757d' }}>
+//                                 Admin Actions
+//                             </Card.Header>
+//                             <Card.Body>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label className="small fw-bold">Status</Form.Label>
+//                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+//                                         <option value="pending">Pending</option>
+//                                         <option value="Assigned">Assigned</option>
+//                                         <option value="In Progress">In Progress</option>
+//                                         <option value="Resolved">Resolved (Triggers Email)</option>
+//                                         <option value="Spam">Mark as Spam</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                                 <Form.Group className="mb-3">
+//                                     <Form.Label className="small fw-bold">Priority</Form.Label>
+//                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
+//                                         <option value="Low">Low</option>
+//                                         <option value="Medium">Medium</option>
+//                                         <option value="High">High</option>
+//                                         <option value="Critical">Critical</option>
+//                                     </Form.Select>
+//                                 </Form.Group>
+//                                 <Button variant="primary" className="w-100 fw-bold" onClick={handleUpdate}>
+//                                     Update Ticket
+//                                 </Button>
+//                             </Card.Body>
+//                         </Card>
+
+//                         <Card className="sidebar-card shadow-sm">
+//                             <Card.Body>
+//                                 <h6 className="fw-bold mb-2">Assigned Department</h6>
+//                                 <div className="p-2 bg-light rounded mb-3 border">
+//                                     <i className="bi bi-building me-2 text-primary"></i>
+//                                     {issue.assignedDepartment || 'Unassigned'}
+//                                 </div>
+//                                 {departmentEmail && (
+//                                     <Button as="a" href={gmailLink} target="_blank" variant="outline-dark" size="sm" className="w-100">
+//                                         <i className="bi bi-envelope-plus me-2"></i> Compose Email
+//                                     </Button>
+//                                 )}
+//                             </Card.Body>
+//                         </Card>
+//                     </div>
+//                 </Col>
+//             </Row>
+//         </div>
+//     );
+// };
+
+// export default IssueDetailsPage;
+
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Card, Row, Col, Button, Form } from 'react-bootstrap';
-import { FaDownload } from 'react-icons/fa';
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { Card, Row, Col, Button, Form, Badge, Alert } from 'react-bootstrap';
+import { FaDownload, FaCheckCircle, FaFlag, FaRobot, FaRoad, FaExclamationTriangle, FaLightbulb } from 'react-icons/fa';
+import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../lib/firebaseconfig";
 import { departments } from '../lib/departments';
+import emailjs from '@emailjs/browser';
+
+// 🧠 IMPORT THE INTELLIGENCE ENGINES
+import { getTrafficProfile } from '../lib/trafficOracle';
+import { analyzeIssueContext } from '../lib/intelligence';
 
 const IssueDetailsPage = () => {
     const { id } = useParams();
+    
+    // Core Data State
     const [issue, setIssue] = useState(null);
     const [loading, setLoading] = useState(true);
+    
+    // Editable State
     const [status, setStatus] = useState('');
     const [priority, setPriority] = useState('');
+    
+    // Validation State
+    const [verificationScore, setVerificationScore] = useState(0);
+    const [flagCount, setFlagCount] = useState(0);
+
+    // 🌟 AI & Context State
+    const [trafficData, setTrafficData] = useState(null);
+    const [aiInsights, setAiInsights] = useState([]);
 
     const fetchIssueDetails = async () => {
         if (!id) {
@@ -2822,14 +1426,44 @@ const IssueDetailsPage = () => {
         try {
             const docRef = doc(db, "reports", id);
             const docSnap = await getDoc(docRef);
+            
             if (docSnap.exists()) {
                 const issueData = docSnap.data();
+                
+                let formattedDate = 'N/A';
                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-                    issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
+                    formattedDate = issueData.createdAt.toDate().toLocaleString();
+                } else if (issueData.createdAt) {
+                    formattedDate = issueData.createdAt.toString();
                 }
-                setIssue(issueData);
+                
+                setIssue({ ...issueData, createdAtFormatted: formattedDate });
                 setStatus(issueData.status || 'pending');
                 setPriority(issueData.priority || 'Medium');
+                setVerificationScore(issueData.verificationScore || 0);
+                setFlagCount(issueData.flagCount || 0);
+
+                // 🧠 RUN INTELLIGENCE
+                if (issueData.location) {
+                    // 1. Traffic Logic
+                    const roadRelatedTypes = ['Pothole', 'Streetlight', 'Accident', 'Road', 'Traffic'];
+                    const isRoadIssue = roadRelatedTypes.some(t => 
+                        issueData.type && issueData.type.toLowerCase().includes(t.toLowerCase())
+                    );
+
+                    if (isRoadIssue) {
+                        const trafficInfo = getTrafficProfile(issueData.location);
+                        setTrafficData(trafficInfo);
+                    } else {
+                        setTrafficData(null);
+                    }
+
+                    // 2. Context Logic
+                    analyzeIssueContext(issueData).then(insights => {
+                        setAiInsights(insights);
+                    });
+                }
+
             } else {
                 setIssue(null);
             }
@@ -2842,168 +1476,294 @@ const IssueDetailsPage = () => {
 
     useEffect(() => {
         fetchIssueDetails();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id]);
+
+    // --- 🤖 AI PRIORITY SUGGESTION LOGIC ---
+    const getSuggestedPriority = () => {
+        if (!issue) return null;
+
+        // 1. Critical Traffic = Critical Priority
+        if (trafficData && (trafficData.level === 'CRITICAL' || trafficData.level === 'HIGH')) {
+            return { level: 'Critical', reason: 'Heavy Traffic detected' };
+        }
+
+        // 2. Dangerous Issue Types = High Priority
+        if (['Pothole', 'Accident', 'Streetlight'].includes(issue.type)) {
+            return { level: 'High', reason: 'Safety Hazard' };
+        }
+        
+        // 3. Monsoon Protocol = Critical
+        const hasDisasterAlert = aiInsights.some(insight => insight.type === 'Disaster');
+        if (hasDisasterAlert) {
+            return { level: 'Critical', reason: 'Monsoon Protocol' };
+        }
+
+        return null;
+    };
+
+    const suggestion = getSuggestedPriority();
+
+    // --- ACTIONS ---
+
+    const handleFlagAsFake = async () => {
+        if(!window.confirm("Are you sure you want to flag this report as FAKE?")) return;
+        try {
+            const docRef = doc(db, "reports", id);
+            await updateDoc(docRef, { flagCount: increment(1) });
+            const newCount = flagCount + 1;
+            setFlagCount(newCount);
+            if (newCount >= 3) {
+                await updateDoc(docRef, { status: "Spam", priority: "Low" });
+                setStatus("Spam");
+                setPriority("Low");
+                alert("⚠️ System Alert: This report has been auto-moderated as SPAM.");
+            } else {
+                alert("Report flagged.");
+            }
+        } catch (e) { console.error(e); }
+    };
+
+    const handleVerify = async () => {
+        try {
+            const docRef = doc(db, "reports", id);
+            await updateDoc(docRef, { verificationScore: increment(1) });
+            setVerificationScore(verificationScore + 1);
+            alert("Verification recorded!");
+        } catch (e) { console.error(e); }
+    };
 
     const handleUpdate = async () => {
         if (!id) return;
         const docRef = doc(db, "reports", id);
         try {
-            await updateDoc(docRef, {
-                status: status,
-                priority: priority
-            });
-            fetchIssueDetails(); 
-            alert('Issue updated successfully!');
+            await updateDoc(docRef, { status, priority });
+            if (status === "Resolved") {
+                const emailParams = {
+                    user_name: "Citizen",
+                    user_email: issue.userEmail,
+                    issue_desc: issue.description,
+                    issue_id: id,
+                    issue_type: issue.type,
+                    resolution_date: new Date().toLocaleDateString()
+                };
+                try {
+                    await emailjs.send("service_1fioyb8", "template_xjfj6ho", emailParams, "Kx-_Am2x6azE2uewb");
+                    alert('Updated & Email Sent! ✅');
+                } catch (err) {
+                    console.error(err);
+                    alert('Updated, but Email Failed.');
+                }
+            } else {
+                alert('Issue updated successfully!');
+            }
+            fetchIssueDetails();
         } catch (error) {
-            console.error("Error updating document: ", error);
-            alert('Failed to update issue.');
+            console.error("Error updating:", error);
+            alert('Update failed.');
         }
     };
 
-    if (loading) {
-        return <div className="p-4 text-center">Loading issue details...</div>;
-    }
-
-    if (!issue) {
-        return <div className="p-4 text-center">Issue not found.</div>;
-    }
+    if (loading) return <div className="p-4 text-center">Loading details...</div>;
+    if (!issue) return <div className="p-4 text-center">Issue not found.</div>;
 
     const getLocationCoords = () => {
         if (!issue.location || typeof issue.location !== 'string') return null;
         const coords = issue.location.split(',').map(c => parseFloat(c.trim()));
-        if (coords.length === 2 && !isNaN(coords[0]) && !isNaN(coords[1])) {
-            return coords;
-        }
-        return null;
+        return (coords.length === 2 && !isNaN(coords[0])) ? coords : null;
     };
     const locationCoords = getLocationCoords();
 
     const assignedDeptInfo = departments.find(dept => dept.name === issue.assignedDepartment);
     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
-
     let gmailLink = '';
     if (departmentEmail) {
         const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
-        
-        // Conditionally add the image link to the body text
-        const imageLinkText = issue.image 
-            ? `\n- View Attached Image: ${issue.image}` 
-            : '';
-
-        const body = `
-Dear ${issue.assignedDepartment},
-
-Please review the following reported issue:
-
-- Issue ID: ${id}
-- Type: ${issue.type || 'N/A'}
-- Location: ${issue.location || 'N/A'}
-- Reported On: ${issue.createdAt || 'N/A'}
-- Priority: ${priority} 
-- Status: ${status}${imageLinkText}
-
-Description:
-${issue.description || 'N/A'}
-
-Thank you.
-        `;
-        const gmailBaseUrl = "https://mail.google.com/mail/?view=cm&fs=1";
-        gmailLink = `${gmailBaseUrl}&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.trim())}`;
+        const body = `Review Request:\nID: ${id}\nType: ${issue.type}\nLocation: ${issue.location}\n\nDesc:\n${issue.description}`;
+        gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
     return (
         <div className="issue-details-page p-4">
-            <Link to="/issues" className="back-link mb-3 d-inline-block">
+            <Link to="/issues" className="back-link mb-3 d-inline-block text-decoration-none">
                 <i className="bi bi-arrow-left me-2"></i> Back to Issues
             </Link>
-            <h2 className="issue-id">{id}</h2>
-            <p className="issue-title">{issue.type || 'N/A'}</p>
+            
+            <div className="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h2 className="issue-id text-dark mb-0">{id}</h2>
+                    <span className="badge bg-secondary me-2">{issue.type}</span>
+                    <span className={`badge bg-${status === 'Resolved' ? 'success' : status === 'Spam' ? 'danger' : 'warning'} text-dark border`}>
+                        {status}
+                    </span>
+                </div>
+                <div className="text-end">
+                    <Badge bg="success" className="me-2 p-2"><FaCheckCircle className="me-1"/> Verified: {verificationScore}</Badge>
+                    <Badge bg="danger" className="p-2"><FaFlag className="me-1"/> Flags: {flagCount}</Badge>
+                </div>
+            </div>
 
-            <Row className="mt-4 g-4">
+            {flagCount >= 3 && (
+                <Alert variant="danger" className="mb-4">
+                    <FaFlag className="me-2"/> <strong>Community Alert:</strong> This report has been flagged as spam.
+                </Alert>
+            )}
+
+            <Row className="g-4">
                 <Col md={8}>
-                    <Card className="detail-card mb-4">
+                    {/* 🚦 TRAFFIC CARD */}
+                    {trafficData && (
+                        <div className={`alert alert-${trafficData.color === 'danger' ? 'danger' : 'light'} border shadow-sm mb-4`}>
+                            <div className="d-flex align-items-start">
+                                <div className={`bg-${trafficData.color} text-white rounded p-3 me-3`}>
+                                    <FaRoad className="fs-3"/>
+                                </div>
+                                <div>
+                                    <h5 className={`alert-heading fw-bold text-${trafficData.color} mb-1`}>{trafficData.label}</h5>
+                                    <p className="mb-0 text-muted small">{trafficData.description}</p>
+                                    {trafficData.roadName && (
+                                        <div className="mt-2 fw-bold text-dark small">
+                                            <i className="bi bi-geo-alt me-1"></i> {trafficData.roadName}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* 🧠 AI INSIGHTS CARD */}
+                    {aiInsights.length > 0 && (
+                        <Card className="mb-4 shadow-sm border-0" style={{background: 'linear-gradient(to right, #f8f9fa, #e9ecef)'}}>
+                            <Card.Body>
+                                <h6 className="mb-3 text-primary fw-bold"><FaRobot className="me-2"/>Smart Context Analysis</h6>
+                                {aiInsights.map((insight, idx) => (
+                                    <Alert key={idx} variant={insight.color} className="d-flex align-items-center py-2 px-3 mb-2">
+                                        <span className="fs-4 me-3">{insight.icon || <FaExclamationTriangle/>}</span>
+                                        <div>
+                                            <strong className="d-block">{insight.title}</strong>
+                                            <span className="small">{insight.message}</span>
+                                        </div>
+                                    </Alert>
+                                ))}
+                            </Card.Body>
+                        </Card>
+                    )}
+
+                    {/* 📄 DETAILS CARD */}
+                    <Card className="detail-card mb-4 shadow-sm">
                         <Card.Body>
-                            <h5>Complaint Details</h5>
+                            <h5 className="mb-3 border-bottom pb-2">Complaint Details</h5>
                             <div className="mb-3">
-                                <h6 className="detail-label">Description</h6>
+                                <h6 className="text-muted small text-uppercase fw-bold">Description</h6>
                                 <p className="detail-text">{issue.description || 'N/A'}</p>
                             </div>
-                            
+                            <Row>
+                                <Col md={6}>
+                                    <div className="mb-3">
+                                        <h6 className="text-muted small text-uppercase fw-bold">Location</h6>
+                                        <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
+                                        {locationCoords && (
+                                            <Link to="/map" state={{ center: locationCoords }} className="small fw-bold text-primary text-decoration-none">
+                                                View on Map &rarr;
+                                            </Link>
+                                        )}
+                                    </div>
+                                </Col>
+                                <Col md={6}>
+                                    <div className="mb-3">
+                                        <h6 className="text-muted small text-uppercase fw-bold">Reported On</h6>
+                                        <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAtFormatted}</p>
+                                    </div>
+                                </Col>
+                            </Row>
                             {issue.tags && (
                                 <div className="mb-3">
-                                    <h6 className="detail-label">Tags</h6>
-                                    <div className="d-flex flex-wrap">
+                                    <h6 className="text-muted small text-uppercase fw-bold">Tags</h6>
+                                    <div>
                                         {issue.tags.split(',').map((tag, index) => (
-                                            <span key={index} className="badge-tag me-2 mb-2">
-                                                {tag.trim()}
-                                            </span>
+                                            <span key={index} className="badge bg-light text-dark border me-1">{tag.trim()}</span>
                                         ))}
                                     </div>
                                 </div>
                             )}
-
-                            <div className="mb-3">
-                                <h6 className="detail-label">Location</h6>
-                                <p className="mb-1"><i className="bi bi-geo-alt-fill me-1"></i> {issue.location || 'N/A'}</p>
-                                {locationCoords && (
-                                    <Link to="/map" state={{ center: locationCoords }} className="fw-bold">
-                                        View on Map
-                                    </Link>
-                                )}
-                            </div>
-                            <div className="mb-3">
-                                <h6 className="detail-label">Reported On</h6>
-                                <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
+                            <hr className="my-3"/>
+                            <div className="d-flex align-items-center">
+                                <span className="small text-muted me-3">Is this report accurate?</span>
+                                <Button variant="outline-success" size="sm" className="me-2" onClick={handleVerify}>
+                                    <FaCheckCircle className="me-1"/> I see this too
+                                </Button>
+                                <Button variant="outline-danger" size="sm" onClick={handleFlagAsFake}>
+                                    <FaFlag className="me-1"/> Flag as Fake
+                                </Button>
                             </div>
                         </Card.Body>
                     </Card>
 
-                    <Card className="detail-card mb-4">
+                    {/* 📷 MEDIA CARD */}
+                    <Card className="detail-card mb-4 shadow-sm">
                         <Card.Body>
-                            <h5><i className="bi bi-paperclip me-2"></i>Media & Evidence</h5>
-                            {issue.image && (
-                                <div className="media-container mb-3">
-                                    <div className="media-header d-flex justify-content-between align-items-center mb-2">
-                                        <span className="media-type"><i className="bi bi-image-fill me-1"></i> Photo</span>
-                                        <a href={issue.image} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
+                            <h5 className="mb-3 border-bottom pb-2">Media Evidence</h5>
+                            {issue.image ? (
+                                <div>
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="small text-muted"><i className="bi bi-image me-1"></i> Attached Photo</span>
+                                        <a href={issue.image} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border"><FaDownload/> Download</a>
                                     </div>
-                                    <img src={issue.image} alt="Issue evidence" className="img-fluid rounded border" />
+                                    <img src={issue.image} alt="Evidence" className="img-fluid rounded border" style={{maxHeight:'400px', objectFit:'cover'}} />
                                 </div>
-                            )}
+                            ) : <p className="text-muted small">No visual evidence provided.</p>}
                             {issue.audio && (
-                                <div className="media-container mt-4">
-                                    <div className="media-header d-flex justify-content-between align-items-center mb-2">
-                                        <span className="media-type"><i className="bi bi-mic-fill me-1"></i> Audio</span>
-                                        <a href={issue.audio} download target="_blank" rel="noopener noreferrer"><FaDownload /></a>
+                                <div className="mt-3">
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="small text-muted"><i className="bi bi-mic-fill me-1"></i> Audio Clip</span>
+                                        <a href={issue.audio} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border"><FaDownload/></a>
                                     </div>
-                                    <audio controls className="w-100">
-                                        <source src={issue.audio} type="audio/webm" />
-                                        Your browser does not support the audio element.
-                                    </audio>
+                                    <audio controls className="w-100"><source src={issue.audio} type="audio/webm" /></audio>
                                 </div>
-                            )}
-                            {!issue.image && !issue.audio && (
-                                <p className="text-muted">No media was provided for this issue.</p>
                             )}
                         </Card.Body>
                     </Card>
                 </Col>
+
+                {/* 👉 RIGHT SIDEBAR */}
                 <Col md={4}>
-                    <div className="right-sidebar">
-                        <Card className="sidebar-card status-card mb-4">
+                    <div className="sticky-top" style={{top: '20px'}}>
+                        <Card className="sidebar-card mb-3 shadow-sm border-secondary">
+                            <Card.Header className="text-white fw-bold" style={{ backgroundColor: '#6c757d' }}>
+                                Admin Actions
+                            </Card.Header>
                             <Card.Body>
-                                <h5>Status & Priority</h5>
+                                
+                                {/* 💡 AI PRIORITY SUGGESTION (Only shows if priority is different) */}
+                                {suggestion && priority !== suggestion.level && (
+                                    <Alert variant="info" className="mb-3 small border-info">
+                                        <div className="d-flex align-items-start">
+                                            <FaLightbulb className="me-2 mt-1 text-primary"/>
+                                            <div>
+                                                <strong>AI Suggestion:</strong><br/>
+                                                Mark as <b>{suggestion.level}</b> due to {suggestion.reason}.
+                                                <div className="mt-2">
+                                                    <Button size="sm" variant="outline-primary" className="py-0 px-2" onClick={() => setPriority(suggestion.level)}>
+                                                        Apply Suggestion
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Alert>
+                                )}
+
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Update Status</Form.Label>
+                                    <Form.Label className="small fw-bold">Status</Form.Label>
                                     <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
                                         <option value="pending">Pending</option>
                                         <option value="Assigned">Assigned</option>
                                         <option value="In Progress">In Progress</option>
-                                        <option value="Resolved">Resolved</option>
+                                        <option value="Resolved">Resolved (Triggers Email)</option>
+                                        <option value="Spam">Mark as Spam</option>
                                     </Form.Select>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
-                                    <Form.Label>Update Priority</Form.Label>
+                                    <Form.Label className="small fw-bold">Priority</Form.Label>
                                     <Form.Select value={priority} onChange={(e) => setPriority(e.target.value)}>
                                         <option value="Low">Low</option>
                                         <option value="Medium">Medium</option>
@@ -3011,35 +1771,26 @@ Thank you.
                                         <option value="Critical">Critical</option>
                                     </Form.Select>
                                 </Form.Group>
+                                <Button variant="primary" className="w-100 fw-bold" onClick={handleUpdate}>
+                                    Update Ticket
+                                </Button>
                             </Card.Body>
                         </Card>
 
-                        <Card className="sidebar-card mb-4">
+                        <Card className="sidebar-card shadow-sm">
                             <Card.Body>
-                                <h5>Assigned Department</h5>
-                                <p className="fw-bold mb-2">
-                                    <i className="bi bi-building-fill me-2"></i>
+                                <h6 className="fw-bold mb-2">Assigned Department</h6>
+                                <div className="p-2 bg-light rounded mb-3 border">
+                                    <i className="bi bi-building me-2 text-primary"></i>
                                     {issue.assignedDepartment || 'Unassigned'}
-                                </p>
+                                </div>
                                 {departmentEmail && (
-                                    <Button 
-                                        as="a" 
-                                        href={gmailLink} 
-                                        target="_blank" 
-                                        rel="noopener noreferrer"
-                                        variant="outline-primary" 
-                                        className="w-100 mt-2"
-                                    >
-                                        <i className="bi bi-envelope-fill me-2"></i>
-                                        Draft Email in Gmail
+                                    <Button as="a" href={gmailLink} target="_blank" variant="outline-dark" size="sm" className="w-100">
+                                        <i className="bi bi-envelope-plus me-2"></i> Compose Email
                                     </Button>
                                 )}
                             </Card.Body>
                         </Card>
-                        
-                        <Button variant="primary" className="w-100" onClick={handleUpdate}>
-                            Save Changes
-                        </Button>
                     </div>
                 </Col>
             </Row>
