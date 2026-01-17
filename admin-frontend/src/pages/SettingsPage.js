@@ -13,7 +13,6 @@ const SettingsPage = () => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     // 🌑 DARK MODE LOGIC
-    // This effect runs whenever 'darkMode' changes
     useEffect(() => {
         if (darkMode) {
             document.body.classList.add('dark-mode');
@@ -25,9 +24,7 @@ const SettingsPage = () => {
     }, [darkMode]);
 
     const handleSave = () => {
-        // Here you would typically save to Firebase
         console.log("Saving Settings:", { darkMode, emailAlerts, smsAlerts });
-        
         setShowSuccess(true);
         setTimeout(() => setShowSuccess(false), 3000);
     };
@@ -43,10 +40,9 @@ const SettingsPage = () => {
             )}
 
             <Row>
-                {/* 🎨 APPEARANCE CARD */}
                 <Col md={6} className="mb-4">
                     <Card className="shadow-sm h-100 border-0">
-                        <Card.Header className="bg-primary text-white fw-bold">
+                        <Card.Header className="text-white fw-bold" style={{ backgroundColor: '#6c757d' }}>
                             <FaSun className="me-2"/> Appearance
                         </Card.Header>
                         <Card.Body>
@@ -72,10 +68,9 @@ const SettingsPage = () => {
                     </Card>
                 </Col>
 
-                {/* 🔔 NOTIFICATIONS CARD */}
                 <Col md={6} className="mb-4">
                     <Card className="shadow-sm h-100 border-0">
-                        <Card.Header className="bg-success text-white fw-bold">
+                        <Card.Header className="text-white fw-bold" style={{ backgroundColor: '#6c757d' }}>
                             <FaBell className="me-2"/> Notifications
                         </Card.Header>
                         <Card.Body>
@@ -107,7 +102,6 @@ const SettingsPage = () => {
                 </Col>
             </Row>
 
-            {/* SAVE BUTTON */}
             <div className="text-end">
                 <Button variant="primary" size="lg" className="px-5 fw-bold shadow" onClick={handleSave}>
                     <FaSave className="me-2"/> Save Changes
