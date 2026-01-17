@@ -182,3 +182,69 @@ body {
   color: #495057;
   text-transform: capitalize;
 }
+
+/* src/styles.css */
+
+/* 🌑 DARK MODE: THEME BASE */
+body.dark-mode {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+/* 🌑 DARK MODE: CARDS & CONTAINERS */
+body.dark-mode .card, 
+body.dark-mode .sidebar, 
+body.dark-mode .header,
+body.dark-mode .main-content-wrapper,
+body.dark-mode .sidebar-card, 
+body.dark-mode .detail-card,
+body.dark-mode .modal-content {
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+    border-color: #444 !important;
+}
+
+/* 🌑 DARK MODE: TEXT COLORS */
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode h6,
+body.dark-mode strong,
+body.dark-mode b,
+body.dark-mode .text-dark {
+    color: #ffffff !important;
+}
+
+body.dark-mode .text-muted {
+    color: #b0b0b0 !important;
+}
+
+/* 🌑 DARK MODE: INPUTS & FORMS */
+body.dark-mode .form-control, 
+body.dark-mode .form-select,
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background-color: #2d2d2d !important;
+    border-color: #555 !important;
+    color: #fff !important;
+}
+
+/* 🌑 DARK MODE: ALERTS & BADGES */
+body.dark-mode .bg-light,
+body.dark-mode .alert-light {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+    border-color: #444 !important;
+}
+
+/* 🌑 DARK MODE: TABLES (If you have any) */
+body.dark-mode .table {
+    color: #e0e0e0 !important;
+}
+body.dark-mode .table-hover tbody tr:hover {
+    color: #fff !important;
+    background-color: #333 !important;
+}
