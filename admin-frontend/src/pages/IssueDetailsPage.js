@@ -873,17 +873,17 @@
 
 // export default IssueDetailsPage;
 
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Card, Row, Col, Button, Form, Badge, Alert } from 'react-bootstrap';
-import { FaDownload, FaCheckCircle, FaFlag, FaRobot, FaRoad } from 'react-icons/fa';
+import { FaDownload, FaCheckCircle, FaFlag, FaRobot, FaRoad, FaExclamationTriangle } from 'react-icons/fa';
 import { doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import { db } from "../lib/firebaseconfig";
 import { departments } from '../lib/departments';
 import emailjs from '@emailjs/browser';
 
 // 🧠 IMPORT THE INTELLIGENCE ENGINES
+// Make sure these files exist in your 'src/lib/' folder!
 import { getTrafficProfile } from '../lib/trafficOracle';
 import { analyzeIssueContext } from '../lib/intelligence';
 
@@ -918,12 +918,16 @@ const IssueDetailsPage = () => {
             if (docSnap.exists()) {
                 const issueData = docSnap.data();
                 
-                // Format Date
+                // Format Date safely
+                let formattedDate = 'N/A';
                 if (issueData.createdAt && typeof issueData.createdAt.toDate === 'function') {
-                    issueData.createdAt = issueData.createdAt.toDate().toLocaleString();
+                    formattedDate = issueData.createdAt.toDate().toLocaleString();
+                } else if (issueData.createdAt) {
+                    formattedDate = issueData.createdAt.toString();
                 }
                 
-                setIssue(issueData);
+                // Update State
+                setIssue({ ...issueData, createdAtFormatted: formattedDate });
                 setStatus(issueData.status || 'pending');
                 setPriority(issueData.priority || 'Medium');
                 setVerificationScore(issueData.verificationScore || 0);
@@ -934,12 +938,15 @@ const IssueDetailsPage = () => {
                 // ---------------------------------------------------------
                 if (issueData.location) {
                     // 1. Static Traffic Oracle (OSM Data)
+                    // Checks if the location matches a known Highway
                     const trafficInfo = getTrafficProfile(issueData.location);
                     setTrafficData(trafficInfo);
 
                     // 2. Dynamic Context Engine (Weather/Safety)
-                    const insights = await analyzeIssueContext(issueData);
-                    setAiInsights(insights);
+                    // Checks for Rain/Schools/Hospitals nearby
+                    analyzeIssueContext(issueData).then(insights => {
+                        setAiInsights(insights);
+                    });
                 }
                 // ---------------------------------------------------------
 
@@ -977,7 +984,7 @@ const IssueDetailsPage = () => {
                 setPriority("Low");
                 alert("⚠️ System Alert: This report has been auto-moderated as SPAM due to multiple flags.");
             } else {
-                alert("Report flagged. Thank you for maintaining data quality.");
+                alert("Report flagged. Thank you for helping us maintain data quality.");
             }
         } catch (e) { console.error(e); }
     };
@@ -987,7 +994,7 @@ const IssueDetailsPage = () => {
             const docRef = doc(db, "reports", id);
             await updateDoc(docRef, { verificationScore: increment(1) });
             setVerificationScore(verificationScore + 1);
-            alert("Verification recorded. Thank you!");
+            alert("Verification recorded. Thank you for confirming this issue!");
         } catch (e) { console.error(e); }
     };
 
@@ -999,6 +1006,7 @@ const IssueDetailsPage = () => {
 
             if (status === "Resolved") {
                 // Email Logic
+                console.log("Status Resolved. Sending Email...");
                 const emailParams = {
                     user_name: "Citizen",
                     user_email: issue.userEmail,
@@ -1009,10 +1017,10 @@ const IssueDetailsPage = () => {
                 };
                 try {
                     await emailjs.send("service_1fioyb8", "template_xjfj6ho", emailParams, "Kx-_Am2x6azE2uewb");
-                    alert('Updated & Email Sent! ✅');
+                    alert('Issue updated & Resolution Email sent to user! ✅');
                 } catch (err) {
                     console.error(err);
-                    alert('Updated, but Email Failed.');
+                    alert('Issue updated, but Email Notification failed.');
                 }
             } else {
                 alert('Issue updated successfully!');
@@ -1020,7 +1028,7 @@ const IssueDetailsPage = () => {
             fetchIssueDetails();
         } catch (error) {
             console.error("Error updating:", error);
-            alert('Update failed.');
+            alert('Update failed. Check console.');
         }
     };
 
@@ -1040,7 +1048,7 @@ const IssueDetailsPage = () => {
     const departmentEmail = assignedDeptInfo ? assignedDeptInfo.email : null;
     let gmailLink = '';
     if (departmentEmail) {
-        const subject = `Issue ID: ${id} - ${issue.type}`;
+        const subject = `Regarding Issue ID: ${id} - ${issue.type}`;
         const body = `Review Request:\nID: ${id}\nType: ${issue.type}\nLocation: ${issue.location}\n\nDesc:\n${issue.description}`;
         gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(departmentEmail)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
@@ -1055,7 +1063,7 @@ const IssueDetailsPage = () => {
                 <div>
                     <h2 className="issue-id text-dark mb-0">{id}</h2>
                     <span className="badge bg-secondary me-2">{issue.type}</span>
-                    <span className={`badge bg-${status === 'Resolved' ? 'success' : status === 'Spam' ? 'danger' : 'warning'} text-dark`}>
+                    <span className={`badge bg-${status === 'Resolved' ? 'success' : status === 'Spam' ? 'danger' : 'warning'} text-dark border`}>
                         {status}
                     </span>
                 </div>
@@ -1070,7 +1078,7 @@ const IssueDetailsPage = () => {
             {/* ⚠️ SPAM BANNER */}
             {flagCount >= 3 && (
                 <Alert variant="danger" className="mb-4">
-                    <FaFlag className="me-2"/> <strong>Community Alert:</strong> This report has been flagged as spam by multiple users.
+                    <FaFlag className="me-2"/> <strong>Community Alert:</strong> This report has been flagged as spam/fake by multiple users.
                 </Alert>
             )}
 
@@ -1108,7 +1116,7 @@ const IssueDetailsPage = () => {
                                 <h6 className="mb-3 text-primary fw-bold"><FaRobot className="me-2"/>Smart Context Analysis</h6>
                                 {aiInsights.map((insight, idx) => (
                                     <Alert key={idx} variant={insight.color} className="d-flex align-items-center py-2 px-3 mb-2">
-                                        <span className="fs-4 me-3">{insight.icon}</span>
+                                        <span className="fs-4 me-3">{insight.icon || <FaExclamationTriangle/>}</span>
                                         <div>
                                             <strong className="d-block">{insight.title}</strong>
                                             <span className="small">{insight.message}</span>
@@ -1144,7 +1152,7 @@ const IssueDetailsPage = () => {
                                 <Col md={6}>
                                     <div className="mb-3">
                                         <h6 className="text-muted small text-uppercase fw-bold">Reported On</h6>
-                                        <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAt || 'N/A'}</p>
+                                        <p className="mb-0"><i className="bi bi-clock-fill me-1"></i> {issue.createdAtFormatted}</p>
                                     </div>
                                 </Col>
                             </Row>
@@ -1166,10 +1174,10 @@ const IssueDetailsPage = () => {
                             <div className="d-flex align-items-center">
                                 <span className="small text-muted me-3">Is this report accurate?</span>
                                 <Button variant="outline-success" size="sm" className="me-2" onClick={handleVerify}>
-                                    <FaCheckCircle className="me-1"/> Confirm
+                                    <FaCheckCircle className="me-1"/> I see this too
                                 </Button>
                                 <Button variant="outline-danger" size="sm" onClick={handleFlagAsFake}>
-                                    <FaFlag className="me-1"/> Flag Fake
+                                    <FaFlag className="me-1"/> Flag as Fake
                                 </Button>
                             </div>
                         </Card.Body>
@@ -1191,6 +1199,21 @@ const IssueDetailsPage = () => {
                                 </div>
                             ) : (
                                 <p className="text-muted small">No visual evidence provided.</p>
+                            )}
+                            
+                            {issue.audio && (
+                                <div className="mt-3">
+                                    <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <span className="small text-muted"><i className="bi bi-mic-fill me-1"></i> Audio Clip</span>
+                                        <a href={issue.audio} download target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-light border">
+                                            <FaDownload/>
+                                        </a>
+                                    </div>
+                                    <audio controls className="w-100">
+                                        <source src={issue.audio} type="audio/webm" />
+                                        Your browser does not support audio.
+                                    </audio>
+                                </div>
                             )}
                         </Card.Body>
                     </Card>
