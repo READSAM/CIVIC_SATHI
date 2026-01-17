@@ -70,7 +70,7 @@ export async function POST(req: Request) {
     console.log(`[PROXY] Forwarding tags to Python: "${tags}"`);
 
     // Call the Python Backend
-    const pythonResponse = await fetch(`${PYTHON_API_URL}/api/assign-department`, {
+    const pythonResponse = await fetch(`${PYTHON_API_URL}/analyze-issue`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
