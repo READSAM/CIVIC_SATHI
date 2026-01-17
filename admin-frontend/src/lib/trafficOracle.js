@@ -1,121 +1,21 @@
-// // src/lib/trafficOracle.js
-// import roadData from '../data/major_roads.json';
-
-// // Helper: Calculate distance between a Point (p) and a Line Segment (v, w)
-// const distToSegmentSquared = (p, v, w) => {
-//     const l2 = (v[0] - w[0])**2 + (v[1] - w[1])**2;
-//     if (l2 === 0) return (p[0] - v[0])**2 + (p[1] - v[1])**2;
-//     let t = ((p[0] - v[0]) * (w[0] - v[0]) + (p[1] - v[1]) * (w[1] - v[1])) / l2;
-//     t = Math.max(0, Math.min(1, t));
-//     return (p[0] - v[0] - t * (w[0] - v[0]))**2 + (p[1] - v[1] - t * (w[1] - v[1]))**2;
-// };
-
-// const distToSegment = (p, v, w) => {
-//     return Math.sqrt(distToSegmentSquared(p, v, w));
-// };
-
-// // Main Function: Check if location is near a major road
-// export const getTrafficProfile = (locationString) => {
-//     // 1. Debug Log: Start
-//     console.log("🚦 ORACLE START: Analyzing location:", locationString);
-
-//     if (!locationString || !locationString.includes(',')) {
-//         console.error("❌ ORACLE ERROR: Invalid location format");
-//         return null;
-//     }
-
-//     // 2. Parse Coordinates
-//     const [reportLat, reportLon] = locationString.split(',').map(Number);
-    
-//     // Safety check for NaN
-//     if (isNaN(reportLat) || isNaN(reportLon)) {
-//         console.error("❌ ORACLE ERROR: Coordinates are not numbers");
-//         return null;
-//     }
-
-//     // 3. Loop through roads
-//     for (const feature of roadData.features) {
-//         const roadType = feature.properties.highway; 
-//         const coordinates = feature.geometry.coordinates;
-        
-//         for (let i = 0; i < coordinates.length - 1; i++) {
-//             const p1 = coordinates[i];     // [lon, lat]
-//             const p2 = coordinates[i + 1]; // [lon, lat]
-
-//             // Calculate Distance
-//             const distDegrees = distToSegment([reportLon, reportLat], p1, p2);
-            
-//             // 4. LOGGING CLOSE MATCHES
-//             // If it's somewhat close (within ~500m), log it so we know logic works
-//             if (distDegrees < 0.005) {
-//                 console.log(`🔍 Close to ${feature.properties.name || 'Road'}: ${distDegrees.toFixed(5)}`);
-//             }
-
-//             // 5. RELAXED THRESHOLD MATCH
-//             // Changed from 0.0003 to 0.002 (Approx 200 meters)
-//             if (distDegrees < 0.002) {
-                
-//                 console.log("✅ MATCH FOUND! Road:", feature.properties.name);
-
-//                 let urgency = "HIGH";
-//                 let desc = "This is a key arterial road.";
-//                 let color = "warning";
-
-//                 if (roadType === 'trunk' || roadType === 'primary') {
-//                     urgency = "CRITICAL";
-//                     desc = "This is a MAIN HIGHWAY carrying heavy city traffic.";
-//                     color = "danger";
-//                 } else if (roadType === 'secondary') {
-//                     urgency = "HIGH";
-//                     desc = "This is a major connector road.";
-//                     color = "warning";
-//                 }
-
-//                 return {
-//                     level: urgency,
-//                     label: `${roadType.toUpperCase()} ROAD DETECTED`,
-//                     description: desc,
-//                     color: color,
-//                     roadName: feature.properties.name || "Unnamed Major Road"
-//                 };
-//             }
-//         }
-//     }
-
-//     // If no match found
-//     console.log("⚠️ No Match Found. Returning Local Street.");
-//     return {
-//         level: "LOW",
-//         label: "Local Street",
-//         description: "Traffic likely local or residential.",
-//         color: "success"
-//     };
-// };
-
-
-// src/lib/trafficOracle.js
-
-// 1. EMBEDDED DATA (Updated with Patia Coordinates)
 const roadData = {
   "type": "FeatureCollection",
   "features": [
-    // 📍 NEW: Your Specific Location (Patia)
     {
       "type": "Feature",
       "properties": { "name": "Patia Interior Road (High Priority)", "highway": "primary" },
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [85.815581, 20.363967], // Start point
-          [85.816081, 20.364467], // <--- Your EXACT Coordinate
-          [85.816581, 20.364967]  // End point
+          [85.815581, 20.363967], //start
+          [85.816081, 20.364467], //exact location
+          [85.816581, 20.364967]  //end
         ]
       }
     },
-    // 📍 NEW: Nearby Cross Road
     {
       "type": "Feature",
-      "properties": { "name": "Patia College Road", "highway": "secondary" },
+      "properties":{"name": "Patia College Road", "highway": "secondary"},
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -124,7 +24,7 @@ const roadData = {
         ]
       }
     },
-    // 🏛️ RAJ BHAVAN AREA (VIP Zone)
+    //VIP Zone
     {
       "type": "Feature",
       "properties": { "name": "Raj Bhavan Square (VIP Zone)", "highway": "primary" },
@@ -132,12 +32,11 @@ const roadData = {
         "type": "LineString",
         "coordinates": [
           [85.817000, 20.271200], 
-          [85.817585, 20.271278], // Previous VIP fix
+          [85.817585, 20.271278],
           [85.818000, 20.271350]
         ]
       }
     },
-    // ... EXISTING ROADS ...
     {
       "type": "Feature",
       "properties": { "name": "Raj Path", "highway": "primary" },
@@ -173,7 +72,7 @@ const roadData = {
   ]
 };
 
-// 2. HELPER MATH FUNCTIONS
+
 const distToSegmentSquared = (p, v, w) => {
     const l2 = (v[0] - w[0])**2 + (v[1] - w[1])**2;
     if (l2 === 0) return (p[0] - v[0])**2 + (p[1] - v[1])**2;
@@ -186,7 +85,7 @@ const distToSegment = (p, v, w) => {
     return Math.sqrt(distToSegmentSquared(p, v, w));
 };
 
-// 3. MAIN ORACLE FUNCTION
+//Main function
 export const getTrafficProfile = (locationString) => {
     if (!locationString || !locationString.includes(',')) return null;
 
@@ -199,14 +98,14 @@ export const getTrafficProfile = (locationString) => {
         const coordinates = feature.geometry.coordinates;
 
         for (let i = 0; i < coordinates.length - 1; i++) {
-            const p1 = coordinates[i];     // [lon, lat]
-            const p2 = coordinates[i + 1]; // [lon, lat]
+            const p1 = coordinates[i];
+            const p2 = coordinates[i + 1];
 
             const distDegrees = distToSegment([reportLon, reportLat], p1, p2);
 
             // Relaxed Threshold (~250m)
             if (distDegrees < 0.0025) {
-                console.log("✅ MATCH: ", feature.properties.name);
+                console.log("MATCH: ", feature.properties.name);
                 
                 let urgency = "HIGH";
                 let desc = "This is a key arterial road.";
