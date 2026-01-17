@@ -3,7 +3,7 @@ const roadData = {
   "features": [
     {
       "type": "Feature",
-      "properties": { "name": "Patia Interior Road (High Priority)", "highway": "primary" },
+      "properties": { "name": "Patia Interior Road", "highway": "secondary" },
       "geometry": {
         "type": "LineString",
         "coordinates": [
