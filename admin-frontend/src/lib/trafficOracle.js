@@ -107,18 +107,16 @@ export const getTrafficProfile = (locationString) => {
             if (distDegrees < 0.0025) {
                 console.log("MATCH: ", feature.properties.name);
                 
-                // DEFAULT MATCH: "HIGH" (Orange)
-                // This covers 'primary', 'secondary', etc.
+
                 let urgency = "HIGH";
                 let desc = "Important city road detected.";
-                let color = "warning"; // Bootstrap Orange
+                let color = "warning"; 
 
-                // OVERRIDE: "CRITICAL" (Red)
-                // Only for 'trunk' roads (Highways like NH-16) or explicit VIP zones
+         
                 if (roadType === 'trunk' || feature.properties.name.includes("VIP")) {
                     urgency = "CRITICAL";
                     desc = "MAIN HIGHWAY / VIP ROUTE DETECTED.";
-                    color = "danger"; // Bootstrap Red
+                    color = "danger"; 
                 }
 
                 return {
