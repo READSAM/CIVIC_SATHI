@@ -944,6 +944,7 @@ export default function ReportIssuePage() {
   const [description, setDescription] = useState("")
   const [displayTags, setDisplayTags] = useState("")
   const [isListening, setIsListening] = useState(false)
+  const [autoDept, setAutoDept] = useState(""); // Stores the department from the tags step
   const recognitionRef = useRef<any>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const [isRecording, setIsRecording] = useState(false)
@@ -975,6 +976,10 @@ export default function ReportIssuePage() {
         if (!tagsResponse.ok) throw new Error("Tag gen failed");
         const tagsData = await tagsResponse.json();
         setDisplayTags(tagsData.generated_tags);
+        if (tagsData.suggested_department) {
+            console.log("⚡ Pre-fetched Department:", tagsData.suggested_department);
+            setAutoDept(tagsData.suggested_department);
+        }
       } catch (err) {
         console.error("Error generating tags:", err);
       }
@@ -1070,37 +1075,73 @@ export default function ReportIssuePage() {
       // 1. Department Assignment
       let assignedDepartment = "General Administration"; 
       
-      try {
-        // Fallback: If tags are empty, use the description so the AI still has something to work with
-        const tagsToSend = displayTags && displayTags.length > 0 ? displayTags : `General Issue: ${description}`;
+      // try {
+      //   // Fallback: If tags are empty, use the description so the AI still has something to work with
+      //   const tagsToSend = displayTags && displayTags.length > 0 ? displayTags : `General Issue: ${description}`;
         
-        // LOGS: If you don't see this in the browser console, the code isn't deployed yet!
-        console.log("🏢 STARTING Department Assignment...");
-        console.log("👉 Fetching URL: /api/assign-department");
-        console.log("📦 Sending Data:", JSON.stringify({ tags: tagsToSend }));
+      //   // LOGS: If you don't see this in the browser console, the code isn't deployed yet!
+      //   console.log("🏢 STARTING Department Assignment...");
+      //   console.log("👉 Fetching URL: /api/assign-department");
+      //   console.log("📦 Sending Data:", JSON.stringify({ tags: tagsToSend }));
 
-        // CORRECT URL based on your file path
-        const deptResponse = await fetch('/api/assign-department', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tags: tagsToSend }),
-        });
+      //   // CORRECT URL based on your file path
+      //   const deptResponse = await fetch('/api/assign-department', {
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify({ tags: tagsToSend }),
+      //   });
 
-        if (deptResponse.ok) {
-          const data = await deptResponse.json();
-          console.log("✅ SUCCESS! Server replied:", data);
+      //   if (deptResponse.ok) {
+      //     const data = await deptResponse.json();
+      //     console.log("✅ SUCCESS! Server replied:", data);
           
-          if (data.department) {
-             assignedDepartment = data.department;
-             console.log("🎯 Set Department to:", assignedDepartment);
-          }
-        } else {
-          // If the path is wrong, this will print 404
-          console.error("❌ ERROR: Server returned status:", deptResponse.status);
-        }
+      //     if (data.department) {
+      //        assignedDepartment = data.department;
+      //        console.log("🎯 Set Department to:", assignedDepartment);
+      //     }
+      //   } else {
+      //     // If the path is wrong, this will print 404
+      //     console.error("❌ ERROR: Server returned status:", deptResponse.status);
+      //   }
 
-      } catch (deptError) {
-        console.error("💥 CRITICAL ERROR in Department Logic:", deptError);
+      // } catch (deptError) {
+      //   console.error("💥 CRITICAL ERROR in Department Logic:", deptError);
+      // }
+      
+      // console.log("🏁 Final Department for Firebase:", assignedDepartment);
+      
+      // OPTIMIZATION: Check if we already got the department during tag generation
+      if (autoDept) {
+           console.log("⚡ Using Pre-fetched Department (Skipping 2nd API call):", autoDept);
+           assignedDepartment = autoDept;
+      } 
+      else {
+           // FALLBACK: If tags/dept weren't generated yet (or failed), ask the API now
+           try {
+             const tagsToSend = displayTags && displayTags.length > 0 ? displayTags : `General Issue: ${description}`;
+             
+             console.log("🏢 STARTING Department Assignment (Fallback)...");
+             const deptResponse = await fetch('/api/assign-department', {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify({ tags: tagsToSend }),
+             });
+      
+             if (deptResponse.ok) {
+               const data = await deptResponse.json();
+               console.log("✅ Server replied:", data);
+               
+               // Handle response (whether it's an object or a direct string)
+               if (data.department) {
+                   assignedDepartment = data.department;
+               } else if (typeof data === 'string') {
+                   assignedDepartment = data;
+               }
+               console.log("🎯 Set Department to:", assignedDepartment);
+             }
+           } catch (deptError) {
+             console.error("💥 CRITICAL ERROR in Department Logic:", deptError);
+           }
       }
       
       console.log("🏁 Final Department for Firebase:", assignedDepartment);
