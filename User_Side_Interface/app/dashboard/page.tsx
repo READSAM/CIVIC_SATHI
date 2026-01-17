@@ -242,7 +242,7 @@ interface Certification {
   description: string;
   threshold: number;
   achieved: boolean;
-  iconColor: string; // We'll use this for dynamic classes
+  iconColor: string; 
 }
 
 const CommunityDashboard: React.FC = () => {
@@ -261,7 +261,7 @@ const CommunityDashboard: React.FC = () => {
       description: "Report your first 10 issues", 
       threshold: 10, 
       achieved: true,
-      iconColor: "text-[#006886]"
+      iconColor: "text-[#2596be]" // Updated Theme Color
     },
     { 
       id: 2, 
@@ -269,7 +269,7 @@ const CommunityDashboard: React.FC = () => {
       description: "Earn 1000 Coins", 
       threshold: 1000, 
       achieved: true,
-      iconColor: "text-[#006886]"
+      iconColor: "text-[#2596be]" // Updated Theme Color
     },
     { 
       id: 3, 
@@ -295,22 +295,22 @@ const CommunityDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-slate-800">
       
-      {/* --- NEW HEADER SECTION --- */}
-      <div className="bg-[#006886] p-4 text-white shadow-md">
+      {/* --- HEADER SECTION (Matches Theme) --- */}
+      <div className="bg-[#2596be] p-4 text-white shadow-md">
         <div className="max-w-md mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-xl font-bold">CivicSaathi</h1>
-            <p className="text-xs opacity-80">User Dashboard</p>
+            <p className="text-xs opacity-90">User Dashboard</p>
           </div>
           {user && (
             <div className="flex items-center gap-3">
               <div className="text-right hidden md:block">
                 <p className="text-sm font-semibold">{user.displayName || user.email?.split('@')[0]}</p>
-                <p className="text-xs opacity-80">Citizen</p>
+                <p className="text-xs opacity-90">Citizen</p>
               </div>
               <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
                   <AvatarImage src={user.photoURL || ""} alt={user.email || ""} />
-                  <AvatarFallback className="bg-[#00556d] text-white font-bold">
+                  <AvatarFallback className="bg-[#1a6b88] text-white font-bold">
                       {user.email?.charAt(0).toUpperCase()}
                   </AvatarFallback>
               </Avatar>
@@ -333,8 +333,8 @@ const CommunityDashboard: React.FC = () => {
               </div>
             </div>
             <div className="text-right">
-              {/* Updated to Teal theme */}
-              <span className="bg-[#e0f2f7] text-[#006886] text-xs font-bold px-3 py-1 rounded-full">
+              {/* Level Badge using slightly lighter version of theme for background */}
+              <span className="bg-[#e4f4f9] text-[#2596be] text-xs font-bold px-3 py-1 rounded-full">
                 LEVEL {stats.level}
               </span>
             </div>
@@ -346,8 +346,8 @@ const CommunityDashboard: React.FC = () => {
               <span>{Math.round(progressPercentage)}%</span>
             </div>
             <div className="w-full bg-gray-100 h-3 rounded-full overflow-hidden">
-              {/* Updated to Teal theme */}
-              <div className="bg-[#006886] h-full transition-all duration-500" style={{ width: `${progressPercentage}%` }}/>
+              {/* Progress Bar with Theme Color */}
+              <div className="bg-[#2596be] h-full transition-all duration-500" style={{ width: `${progressPercentage}%` }}/>
             </div>
             <p className="text-[10px] text-gray-400 italic">
               Earn {nextLevelThreshold - stats.coins} more coins for your 'Community Guardian' Certificate
@@ -359,12 +359,11 @@ const CommunityDashboard: React.FC = () => {
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              {/* Updated to Teal theme */}
-              <Award className="text-[#006886]" size={20} />
+              <Award className="text-[#2596be]" size={20} />
               <h3 className="text-lg font-bold">Certifications</h3>
             </div>
             <span className="text-xs text-gray-400">
-              <span className="text-[#006886] font-semibold">{certifications.filter(c => c.achieved).length}</span>/{certifications.length} Earned
+              <span className="text-[#2596be] font-semibold">{certifications.filter(c => c.achieved).length}</span>/{certifications.length} Earned
             </span>
           </div>
 
@@ -374,7 +373,7 @@ const CommunityDashboard: React.FC = () => {
                 key={cert.id} 
                 className={`flex items-center justify-between p-3 rounded-xl border transition-all ${
                   cert.achieved 
-                    ? 'bg-[#e0f2f7] border-[#b3e0ee]' // Teal theme
+                    ? 'bg-[#e4f4f9] border-[#bee0eb]' // Light version of theme color
                     : 'bg-white border-gray-100 opacity-60'
                 }`}
               >
@@ -395,32 +394,28 @@ const CommunityDashboard: React.FC = () => {
                 </div>
                 
                 {cert.achieved && (
-                  // Updated to Teal theme
-                  <CheckCircle size={16} className="text-[#006886]" />
+                  <CheckCircle size={16} className="text-[#2596be]" />
                 )}
               </div>
             ))}
           </div>
           
-          {/* Updated to Teal theme */}
-          <button className="w-full mt-4 text-xs font-semibold text-[#006886] hover:text-[#00556d] transition-colors">
+          <button className="w-full mt-4 text-xs font-semibold text-[#2596be] hover:text-[#1a6b88] transition-colors">
             View All Achievements
           </button>
         </div>
 
         {/* Action Buttons */}
         <Link href="/my-reports" className="block w-full">
-            {/* Updated to solid Teal button, like the main page */}
-            <button className="w-full bg-[#006886] text-white py-4 rounded-xl font-semibold hover:bg-[#00556d] transition-all shadow-sm">
+            <button className="w-full bg-[#2596be] text-white py-4 rounded-xl font-semibold hover:bg-[#1f7ca0] transition-all shadow-sm">
             View My Reports
             </button>
         </Link>
 
         <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
           <div className="flex items-start gap-4">
-            {/* Updated to Teal theme */}
-            <div className="bg-[#e0f2f7] p-3 rounded-xl">
-              <MapIcon className="text-[#006886]" size={24} />
+            <div className="bg-[#e4f4f9] p-3 rounded-xl">
+              <MapIcon className="text-[#2596be]" size={24} />
             </div>
             <div>
               <h3 className="text-lg font-bold">Community Map</h3>
@@ -436,22 +431,19 @@ const CommunityDashboard: React.FC = () => {
         </div>
 
         {/* Impact Stats */}
-        {/* Updated to Teal theme background and text */}
-        <div className="bg-[#e0f2f7] p-6 rounded-2xl border border-[#b3e0ee]">
-          <div className="flex items-center gap-2 mb-6 text-[#006886]">
+        <div className="bg-[#e4f4f9] p-6 rounded-2xl border border-[#bee0eb]">
+          <div className="flex items-center gap-2 mb-6 text-[#2596be]">
             <FileText size={18} />
             <span className="font-semibold text-sm uppercase tracking-wider">Community Impact</span>
           </div>
           
           <div className="grid grid-cols-2 gap-4 text-center">
-            <div className="border-r border-[#b3e0ee]">
-              {/* Updated to Teal theme */}
-              <p className="text-3xl font-bold text-[#006886]">{stats.reportsIssued}</p>
+            <div className="border-r border-[#bee0eb]">
+              <p className="text-3xl font-bold text-[#2596be]">{stats.reportsIssued}</p>
               <p className="text-xs text-gray-600 mt-1">Issues Reported</p>
             </div>
             <div>
-              {/* Updated to Teal theme */}
-              <p className="text-3xl font-bold text-[#006886]">{stats.reportsResolved}</p>
+              <p className="text-3xl font-bold text-[#2596be]">{stats.reportsResolved}</p>
               <p className="text-xs text-gray-600 mt-1">Issues Resolved</p>
             </div>
           </div>
@@ -465,16 +457,15 @@ const CommunityDashboard: React.FC = () => {
         </div>
 
         {/* Reward Card */}
-        {/* Updated to Teal gradient */}
-        <div className="bg-gradient-to-r from-[#006886] to-[#00556d] p-4 rounded-xl flex items-center justify-between text-white shadow-sm">
+        <div className="bg-gradient-to-r from-[#2596be] to-[#1a6b88] p-4 rounded-xl flex items-center justify-between text-white shadow-sm">
           <div className="flex items-center gap-3">
             <Trophy className="text-yellow-400" size={24} />
             <div>
               <p className="text-sm font-bold">Available Rewards</p>
-              <p className="text-[10px] text-white/80">Redeem coins for local vouchers</p>
+              <p className="text-[10px] text-white/90">Redeem coins for local vouchers</p>
             </div>
           </div>
-          <ChevronRight size={20} className="text-white/80" />
+          <ChevronRight size={20} className="text-white/90" />
         </div>
 
       </div>
