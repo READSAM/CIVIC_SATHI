@@ -1156,7 +1156,7 @@ export default function ReportIssuePage() {
         console.log("Uploading image...");
         const formData = new FormData();
         formData.append('file', selectedFile); 
-        
+        formData.append('location', location)
         // Note: Using standard fetch to your Next.js API route
         const response = await fetch('/api/upload', {
             method: 'POST',
@@ -1355,6 +1355,16 @@ export default function ReportIssuePage() {
                       alt="Preview" 
                       className="max-h-[300px] object-contain rounded-md" 
                     />
+                      {/* --- LOCATION PREVIEW OVERLAY --- */}
+<div className="mt-2 w-full max-w-[300px] p-2 bg-black/80 text-white rounded text-xs flex flex-col items-center text-center">
+     <div className="flex items-center gap-1 font-bold">
+        <span>📍</span> 
+        <span>{location ? "GPS LOCKED" : "NO GPS"}</span>
+     </div>
+     <div className="opacity-80">
+        {location ? location : "Please select location above"}
+     </div>
+</div>
                     <div className="absolute bottom-2 right-2 flex gap-2">
                        <Button
                         type="button" variant="secondary" size="sm"
