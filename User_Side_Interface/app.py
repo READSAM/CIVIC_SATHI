@@ -111,8 +111,9 @@ def generate_tags_from_description(description: str) -> str:
         genai.configure(api_key=api_key)
         
         logging.info("API key loaded successfully. Configuring model...")
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        
+        model = genai.GenerativeModel('models/gemma-3-4b-it')
+        # In app.py
+        #model = genai.GenerativeModel('gemini-1.5-flash') # Use this instead of gemma
         prompt = f"""
         You are a civic issue analysis bot. Your task is to extract highly specific keywords from a description.
         Analyze the following description and generate a list of 1-3 specific tags.
@@ -137,8 +138,8 @@ def generate_tags_from_description(description: str) -> str:
         return response.text.strip()
     except Exception as e:
         # This will print the actual error message to your console
-        logging.error(f"An error occurred during tag generation: {e}")
-        return f"An error occurred during tag generation: {e}"
+        print(f"ERROR GENERATING TAGS: {e}", flush=True) 
+        return jsonify({'tags': 'error', 'department': 'Review Needed'}), 500
 
 def assign_department_from_tags(tags_string: str) -> str:
     """Assigns a department based on a string of tags. This is the core classification function."""
